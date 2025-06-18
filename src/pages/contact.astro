@@ -1,0 +1,638 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Contact - ${SITE_TITLE}`}
+      description="Get in touch with Alan Zheng for collaboration opportunities, technical discussions, or project inquiries."
+    />
+    <style>
+      .hero {
+        text-align: center;
+        padding: 5rem 0 2rem 0;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin-top: -80px;
+        padding-top: 6rem;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f8fafc 50%,
+          #e2e8f0 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .contact-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
+      }
+
+      .contact-info {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        padding: 3rem;
+        border-radius: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+
+      .contact-info h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .contact-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .contact-icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+      }
+
+      .contact-item-content h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: white;
+      }
+
+      .contact-item-content p {
+        opacity: 0.8;
+        margin: 0;
+      }
+
+      .contact-item-content a {
+        color: #8b5cf6;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .contact-item-content a:hover {
+        color: #d946ef;
+      }
+
+      .contact-form {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        padding: 3rem;
+        border-radius: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      }
+
+      .contact-form h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: white;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        color: white;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.75rem;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .form-group input::placeholder,
+      .form-group textarea::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #8b5cf6;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .submit-btn {
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 50%,
+          #d946ef 100%
+        );
+        color: white;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .submit-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .honeypot {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .form-error {
+        color: #ef4444;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        display: none;
+      }
+
+      .form-success {
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #10b981;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1.5rem;
+        display: none;
+      }
+
+      .social-links {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .social-links h3 {
+        color: white;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      .social-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+      }
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .social-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          margin-top: -120px;
+          padding-top: 8rem;
+          padding-bottom: 3rem;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+          padding: 0 1rem;
+        }
+
+        .contact-container {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          padding: 0 1rem;
+          margin-bottom: 2rem;
+        }
+
+        .contact-info,
+        .contact-form {
+          padding: 1.5rem;
+        }
+
+        .contact-info h2,
+        .contact-form h2 {
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .contact-item {
+          padding: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .contact-item-content h3 {
+          font-size: 1rem;
+        }
+
+        .contact-item-content p {
+          font-size: 0.9rem;
+        }
+
+        .form-group {
+          margin-bottom: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+          padding: 0.875rem;
+          font-size: 16px; /* Prevents zoom on iOS */
+        }
+
+        .submit-btn {
+          padding: 1rem;
+          font-size: 1rem;
+        }
+
+        .social-grid {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+        }
+
+        .social-link {
+          padding: 0.875rem;
+          font-size: 0.9rem;
+        }
+
+        .social-links h3 {
+          font-size: 1.1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero {
+          margin-top: -100px;
+          padding-top: 7rem;
+          padding-bottom: 2rem;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .contact-container {
+          padding: 0 0.5rem;
+        }
+
+        .contact-info,
+        .contact-form {
+          padding: 1rem;
+        }
+
+        .contact-item {
+          flex-direction: column;
+          text-align: center;
+          gap: 0.5rem;
+        }
+
+        .contact-item-content {
+          text-align: center;
+        }
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("contact-form") as HTMLFormElement;
+        const submitBtn = form?.querySelector(
+          ".submit-btn"
+        ) as HTMLButtonElement;
+        const originalBtnText = submitBtn?.textContent || "Send Message";
+
+        if (!form || !submitBtn) return;
+
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          // Clear any previous errors
+          const errors = form.querySelectorAll(".form-error");
+          errors.forEach((error: Element) => {
+            (error as HTMLElement).style.display = "none";
+          });
+
+          // Update button state
+          submitBtn.textContent = "Sending...";
+          submitBtn.disabled = true;
+
+          const formData = new FormData(form);
+
+          try {
+            const response = await fetch("/api/contact", {
+              method: "POST",
+              body: formData,
+            });
+
+            const result = (await response.json()) as {
+              success: boolean;
+              message: string;
+              errors?: string[];
+            };
+
+            if (response.ok && result.success) {
+              // Success
+              submitBtn.textContent = "Message Sent! ✓";
+              submitBtn.style.background =
+                "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+              form.reset();
+
+              // Show success message
+              const successMsg = document.createElement("div");
+              successMsg.className = "form-success";
+              successMsg.style.display = "block";
+              successMsg.textContent = result.message;
+              form.insertBefore(successMsg, form.firstChild);
+
+              // Reset button after 3 seconds
+              setTimeout(() => {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+                submitBtn.style.background =
+                  "linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%)";
+                successMsg.remove();
+              }, 5000);
+            } else {
+              // Validation errors
+              if (result.errors && Array.isArray(result.errors)) {
+                result.errors.forEach((error: string) => {
+                  const errorDiv = document.createElement("div");
+                  errorDiv.className = "form-error";
+                  errorDiv.style.display = "block";
+                  errorDiv.textContent = error;
+                  form.insertBefore(errorDiv, submitBtn);
+                });
+              }
+              throw new Error(result.message || "Failed to send message");
+            }
+          } catch (error) {
+            // Error
+            submitBtn.textContent = "Failed to Send ✗";
+            submitBtn.style.background =
+              "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)";
+
+            // Reset button after 3 seconds
+            setTimeout(() => {
+              submitBtn.textContent = originalBtnText;
+              submitBtn.disabled = false;
+              submitBtn.style.background =
+                "linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%)";
+            }, 3000);
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="hero">
+        <h1>Let's Connect</h1>
+        <p>
+          Ready to collaborate on innovative projects or discuss the latest in
+          tech? I'm always excited to connect with fellow developers,
+          entrepreneurs, and tech enthusiasts.
+        </p>
+      </section>
+
+      <div class="contact-container">
+        <div class="contact-info">
+          <h2>Get In Touch</h2>
+
+          <div class="contact-item">
+            <span class="contact-icon">📧</span>
+            <div class="contact-item-content">
+              <h3>Email</h3>
+              <p><a href="mailto:hey@alanszheng.com">hey@alanszheng.com</a></p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon">💼</span>
+            <div class="contact-item-content">
+              <h3>LinkedIn</h3>
+              <p>
+                <a href="https://linkedin.com/in/alanszheng" target="_blank"
+                  >Connect via LinkedIn</a
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon">🐙</span>
+            <div class="contact-item-content">
+              <h3>GitHub</h3>
+              <p>
+                <a href="https://github.com/CodeAlanDebug" target="_blank"
+                  >github.com/CodeAlanDebug</a
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon">🐦</span>
+            <div class="contact-item-content">
+              <h3>Twitter</h3>
+              <p>
+                <a href="https://twitter.com/CodeAlanS" target="_blank"
+                  >@CodeAlanS</a
+                >
+              </p>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <h3>Let's Discuss</h3>
+            <div class="social-grid">
+              <a href="#" class="social-link">
+                <span>☁️</span>
+                <span>Cloud Architecture</span>
+              </a>
+              <a href="#" class="social-link">
+                <span>🌐</span>
+                <span>Full-Stack</span>
+              </a>
+              <a href="#" class="social-link">
+                <span>🕸️</span>
+                <span>Web3 & IPFS</span>
+              </a>
+              <a href="#" class="social-link">
+                <span>🔒</span>
+                <span>Security</span>
+              </a>
+              <a href="#" class="social-link">
+                <span>🤖</span>
+                <span>Digital Transformation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <h2>Send a Message</h2>
+          <form id="contact-form" method="POST">
+            <!-- Honeypot field for spam protection -->
+            <div class="honeypot">
+              <label for="website">Website (leave blank):</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="name">Your Name *</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                required
+                minlength="2"
+                maxlength="100"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="your.email@example.com"
+                required
+                maxlength="254"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                placeholder="What would you like to discuss?"
+                maxlength="200"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Tell me about your project, idea, or question..."
+                required
+                minlength="10"
+                maxlength="5000"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn"> Send Message </button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

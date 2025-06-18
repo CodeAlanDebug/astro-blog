@@ -393,38 +393,138 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
         border-color: rgba(139, 92, 246, 0.8);
       }
 
-      @media (max-width: 720px) {
-        .hero h1 {
-          font-size: 2.8rem;
-        }
+      @media (max-width: 768px) {
         .hero {
           padding: 4rem 1rem 4rem 1rem;
-          margin: -120px -1em 0 -1em;
+          margin: -140px -1em 0 -1em;
         }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero .subtitle {
+          font-size: 1.1rem;
+          margin-bottom: 2rem;
+        }
+
         .about-section {
           padding: 3rem 1.5rem;
-          margin: 2rem 0;
+          margin: 2rem 0.5rem;
         }
+
+        .about-section h2 {
+          font-size: 2rem;
+        }
+
+        .about-section p {
+          font-size: 1rem;
+        }
+
         .tech-stack {
           gap: 0.8rem;
+          margin-top: 2rem;
         }
+
         .tech-badge {
           padding: 0.6rem 1.2rem;
           font-size: 0.85rem;
         }
+
         .projects-grid {
           grid-template-columns: 1fr;
           gap: 1.5rem;
           padding: 0 1rem;
         }
+
         .project-card {
           padding: 2rem;
         }
+
         .section-title {
           font-size: 2rem;
         }
+
         .cta-section {
           padding: 3rem 1.5rem;
+          margin: 4rem -1em -3em -1em;
+        }
+
+        .cta-section h2 {
+          font-size: 2rem;
+        }
+
+        .cta-section p {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero {
+          padding: 3rem 0.5rem;
+          margin: -120px -1em 0 -1em;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .hero .subtitle {
+          font-size: 1rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .about-section {
+          padding: 2rem 1rem;
+          margin: 1.5rem 0.25rem;
+        }
+
+        .about-section h2 {
+          font-size: 1.8rem;
+        }
+
+        .tech-stack {
+          gap: 0.5rem;
+        }
+
+        .tech-badge {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+
+        .projects-grid {
+          padding: 0 0.5rem;
+          gap: 1rem;
+        }
+
+        .project-card {
+          padding: 1.5rem;
+        }
+
+        .project-card h3 {
+          font-size: 1.2rem;
+        }
+
+        .project-card p {
+          font-size: 0.9rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+
+        .cta-section {
+          padding: 2.5rem 1rem;
+        }
+
+        .cta-section h2 {
+          font-size: 1.8rem;
+        }
+
+        .cta-button {
+          padding: 1rem 2rem;
+          font-size: 1rem;
+          margin: 0.25rem;
         }
       }
 

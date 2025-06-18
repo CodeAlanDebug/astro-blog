@@ -159,7 +159,7 @@ const posts = (await getCollection("blog")).sort(
 
       @media (max-width: 768px) {
         main {
-          padding: 1rem;
+          padding: 1rem 0.5rem;
         }
 
         h1 {
@@ -172,12 +172,64 @@ const posts = (await getCollection("blog")).sort(
           gap: 1.5rem;
         }
 
+        ul li {
+          min-height: 250px;
+        }
+
         ul li:first-child {
           margin-bottom: 0.5rem;
+          min-height: 300px;
         }
 
         ul li:first-child .title {
-          font-size: 2rem;
+          font-size: 1.8rem;
+        }
+
+        ul li a {
+          padding: 1.5rem;
+        }
+
+        .title {
+          font-size: 1.2rem;
+        }
+
+        .date {
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        main {
+          padding: 0.5rem;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
+        }
+
+        ul {
+          gap: 1rem;
+        }
+
+        ul li {
+          min-height: 200px;
+        }
+
+        ul li:first-child {
+          min-height: 250px;
+        }
+
+        ul li:first-child .title {
+          font-size: 1.5rem;
+        }
+
+        ul li a {
+          padding: 1rem;
+        }
+
+        .title {
+          font-size: 1.1rem;
         }
       }
     </style>
