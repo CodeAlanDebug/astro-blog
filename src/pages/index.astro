@@ -1,50 +1,578 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      .hero {
+        text-align: center;
+        padding: 6rem 0 6rem 0;
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 50%,
+          #d946ef 100%
+        );
+        color: white;
+        margin: -80px -1em 0 -1em;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0 0 2rem 2rem;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(120, 119, 198, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(255, 119, 198, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 80%,
+            rgba(120, 219, 255, 0.3) 0%,
+            transparent 50%
+          );
+        animation: float 15s ease-in-out infinite;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+          repeat;
+        animation: twinkle 8s linear infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0px, 0px) rotate(0deg);
+        }
+        33% {
+          transform: translate(30px, -30px) rotate(120deg);
+        }
+        66% {
+          transform: translate(-20px, 20px) rotate(240deg);
+        }
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f8fafc 50%,
+          #e2e8f0 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+      }
+
+      .hero .subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.95;
+        font-weight: 400;
+        line-height: 1.6;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .tech-stack {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 2.5rem;
+      }
+
+      .tech-badge {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .tech-badge:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .about-section {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        padding: 4rem 2rem;
+        margin: 4rem 0;
+        border-radius: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+
+      .about-section h2 {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .about-section p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto 1.5rem auto;
+        text-align: center;
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Container for better large screen layout */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Main content wrapper */
+      .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section-title {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 3rem;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f8fafc 50%,
+          #e2e8f0 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .project-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        padding: 2.5rem;
+        border-radius: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #6366f1, #8b5cf6, #d946ef);
+        border-radius: 1.5rem 1.5rem 0 0;
+      }
+
+      .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow:
+          0 20px 40px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .project-card h3 {
+        color: white;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
+
+      .project-icon {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      .project-card p {
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .tag {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 1.5rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      .tag:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-1px);
+      }
+
+      .cta-section {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(
+          135deg,
+          #6366f1 0%,
+          #8b5cf6 50%,
+          #d946ef 100%
+        );
+        color: white;
+        margin: 4rem -1em -3em -1em;
+        border-radius: 2rem 2rem 0 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 70% 30%,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 30% 70%,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-section p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto 2rem auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 1.2rem 2.5rem;
+        border-radius: 2rem;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin: 0.5rem;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-button:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .cta-button.primary {
+        background: rgba(139, 92, 246, 0.8);
+        border-color: rgba(139, 92, 246, 0.6);
+      }
+
+      .cta-button.primary:hover {
+        background: rgba(139, 92, 246, 1);
+        border-color: rgba(139, 92, 246, 0.8);
+      }
+
+      @media (max-width: 720px) {
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+        .hero {
+          padding: 4rem 1rem 4rem 1rem;
+          margin: -120px -1em 0 -1em;
+        }
+        .about-section {
+          padding: 3rem 1.5rem;
+          margin: 2rem 0;
+        }
+        .tech-stack {
+          gap: 0.8rem;
+        }
+        .tech-badge {
+          padding: 0.6rem 1.2rem;
+          font-size: 0.85rem;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          padding: 0 1rem;
+        }
+        .project-card {
+          padding: 2rem;
+        }
+        .section-title {
+          font-size: 2rem;
+        }
+        .cta-section {
+          padding: 3rem 1.5rem;
+        }
+      }
+
+      @media (min-width: 1400px) {
+        .projects-grid {
+          grid-template-columns: repeat(2, 1fr);
+          max-width: 1400px;
+        }
+        .about-section {
+          max-width: 1200px;
+          margin: 4rem auto;
+        }
+        .hero-content {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <h1>👋 Hey, I'm Alan Zheng</h1>
+          <p class="subtitle">
+            Software Engineer crafting the future with cloud infrastructure, AI,
+            and decentralized technologies
+          </p>
+          <div class="tech-stack">
+            <span class="tech-badge">☁️ Cloud Infrastructure</span>
+            <span class="tech-badge">🤖 AI/ML</span>
+            <span class="tech-badge">🌐 Web3</span>
+            <span class="tech-badge">📦 IPFS</span>
+            <span class="tech-badge">⚡ Full-Stack</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section">
+        <div class="main-content">
+          <h2>About Me</h2>
+          <p>
+            I'm a passionate software engineer who thrives at the intersection
+            of emerging technologies. My expertise spans across cloud
+            infrastructure, artificial intelligence, and decentralized systems.
+            I believe in building scalable, innovative solutions that push the
+            boundaries of what's possible.
+          </p>
+          <p>
+            When I'm not architecting distributed systems or experimenting with
+            the latest AI models, you'll find me exploring the Web3 ecosystem
+            and contributing to the decentralized future of the internet.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <div class="main-content">
+          <h2 class="section-title">Featured Projects</h2>
+          <div class="projects-grid">
+            <div class="project-card">
+              <h3>
+                <span class="project-icon">☁️</span>
+                CloudScale Infrastructure
+              </h3>
+              <p>
+                A kubernetes-native platform for auto-scaling applications
+                across multiple cloud providers. Built with Terraform, Go, and
+                designed for enterprise-grade reliability.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Kubernetes</span>
+                <span class="tag">Terraform</span>
+                <span class="tag">Go</span>
+                <span class="tag">AWS</span>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <h3>
+                <span class="project-icon">🤖</span>
+                AI Content Pipeline
+              </h3>
+              <p>
+                An intelligent content processing system that leverages large
+                language models for automated analysis, summarization, and
+                classification at scale.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Python</span>
+                <span class="tag">LLMs</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Redis</span>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <h3>
+                <span class="project-icon">🌐</span>
+                Decentralized Storage Hub
+              </h3>
+              <p>
+                A Web3 application for decentralized file storage and sharing
+                using IPFS, with smart contract integration for access control
+                and monetization.
+              </p>
+              <div class="project-tags">
+                <span class="tag">IPFS</span>
+                <span class="tag">Solidity</span>
+                <span class="tag">React</span>
+                <span class="tag">Web3.js</span>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <h3>
+                <span class="project-icon">⚡</span>
+                Real-time Analytics Engine
+              </h3>
+              <p>
+                High-performance data processing engine for real-time analytics
+                with sub-second latency, handling millions of events per second.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Rust</span>
+                <span class="tag">Apache Kafka</span>
+                <span class="tag">ClickHouse</span>
+                <span class="tag">WebSocket</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <h2>Let's Build Something Amazing</h2>
+        <p>
+          Always excited to collaborate on innovative projects or discuss the
+          latest in tech. Whether it's cloud architecture, AI implementations,
+          or Web3 innovations.
+        </p>
+        <div style="margin-top: 2rem;">
+          <a href="/contact" class="cta-button primary">Get In Touch</a>
+          <a href="/about" class="cta-button">Learn More About Me</a>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>
