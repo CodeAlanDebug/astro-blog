@@ -16,6 +16,8 @@ Features:
 - ✅ Sitemap support
 - ✅ RSS Feed support
 - ✅ Markdown & MDX support
+- ✅ Contact form with Cloudflare Worker integration
+- ✅ Email sending via MailChannels (free)
 
 <!-- dash-content-end -->
 
@@ -52,6 +54,27 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`               | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help`         | Get help using the Astro CLI                     |
 | `npm run build && npm run deploy` | Deploy your production site to Cloudflare        |
+| `npm run deploy:worker`           | Deploy the contact form worker                   |
+| `npm run dev:worker`              | Run contact form worker in development mode      |
+| `npm run test:worker`             | Run contact form worker unit tests               |
+
+## 📧 Contact Form Integration
+
+This template includes a working contact form with Cloudflare Worker integration. See the documentation:
+
+- **[QUICKSTART.md](QUICKSTART.md)** - Get up and running in 5 minutes
+- **[WORKER_INTEGRATION.md](WORKER_INTEGRATION.md)** - Comprehensive integration guide
+- **[workers/README.md](workers/README.md)** - Worker-specific documentation
+- **[SECURITY.md](SECURITY.md)** - Security features and analysis
+
+### Quick Setup
+
+1. Deploy the worker: `npm run deploy:worker`
+2. Add DNS record: `v=spf1 a mx include:relay.mailchannels.net ~all`
+3. Set environment variable: `PUBLIC_CONTACT_WORKER_URL=your-worker-url`
+4. Deploy site: `npm run build && npm run deploy`
+
+For detailed instructions, see [QUICKSTART.md](QUICKSTART.md).
 
 ## 👀 Want to learn more?
 
