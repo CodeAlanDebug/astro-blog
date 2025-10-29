@@ -482,8 +482,14 @@ import { SITE_TITLE } from "../consts";
 
           const formData = new FormData(form);
 
+          // Configuration for Worker endpoint
+          // In production, this should point to your deployed Cloudflare Worker
+          // For example: https://contact-form-worker.YOUR-SUBDOMAIN.workers.dev
+          // Or a custom route: https://alan.one/api/contact-worker
+          const workerEndpoint = import.meta.env.PUBLIC_CONTACT_WORKER_URL || "/api/contact";
+
           try {
-            const response = await fetch("/api/contact", {
+            const response = await fetch(workerEndpoint, {
               method: "POST",
               body: formData,
             });

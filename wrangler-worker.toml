@@ -1,0 +1,23 @@
+name = "contact-form-worker"
+main = "workers/contact-form.js"
+compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Worker configuration
+workers_dev = true
+
+# Routes (uncomment and configure for production)
+# routes = [
+#   { pattern = "alan.one/api/contact-worker", zone_name = "alan.one" }
+# ]
+
+# Environment variables (optional)
+# [vars]
+# RECIPIENT_EMAIL = "astro@alan.one"
+# SENDER_EMAIL = "noreply@alan.one"
+
+# For development, you can use wrangler dev to test locally
+# wrangler dev workers/contact-form.js
+
+# For deployment:
+# wrangler deploy --config wrangler-worker.toml
