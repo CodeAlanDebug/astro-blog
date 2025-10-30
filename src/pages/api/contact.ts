@@ -41,56 +41,80 @@ function validateFormData(data: any) {
   return errors;
 }
 
-// Function to send email using MailChannels (free for Cloudflare Workers)
-async function sendEmail(formData: any) {
-  const emailData = {
-    personalizations: [
-      {
-        to: [{ email: 'astro@alan.one', name: 'Alan Zheng' }], // Your receiving email
-        subject: `Portfolio Contact: ${formData.subject || 'New Message'}`,
-      }
-    ],
-    from: {
-      email: 'noreply@alan.one', // Your domain email for sending
-      name: 'Portfolio Contact Form'
-    },
-    content: [
-      {
-        type: 'text/html',
-        value: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${formData.name}</p>
-          <p><strong>Email:</strong> ${formData.email}</p>
-          <p><strong>Subject:</strong> ${formData.subject || 'No subject'}</p>
-          <p><strong>Message:</strong></p>
-          <p>${formData.message.replace(/\n/g, '<br>')}</p>
-          <hr>
-          <p><small>Sent from your portfolio contact form at ${new Date().toLocaleString()}</small></p>
-        `
-      }
-    ]
-  };
-
-  // MailChannels API (free for Cloudflare Workers)
-  // Note: You may need to add SPF records to your domain for MailChannels
-  // Add this TXT record to your domain: "v=spf1 a mx include:relay.mailchannels.net ~all"
-  const response = await fetch('https://api.mailchannels.net/tx/v1/send', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(emailData),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Failed to send email: ${response.status} - ${errorText}`);
+// Function to send email using Cloudflare Email Worker
+async function sendEmail(formData: any, env: any) {
+  // Use Cloudflare's Email Worker Send API
+  // The EMAIL binding should be configured in wrangler.json
+  if (!env.EMAIL) {
+    throw new Error('Email service not configured. Please bind an Email Worker to your Cloudflare Worker in wrangler.json.');
   }
 
-  return response;
+  try {
+    // Create email message
+    const message = new EmailMessage(
+      env.FROM_EMAIL || 'noreply@example.com',
+      env.TO_EMAIL || 'contact@example.com',
+      `
+From: Portfolio Contact Form <${env.FROM_EMAIL || 'noreply@example.com'}>
+To: <${env.TO_EMAIL || 'contact@example.com'}>
+Reply-To: ${formData.email}
+Subject: Portfolio Contact: ${formData.subject || 'New Message'}
+Content-Type: text/html; charset=utf-8
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    h2 { color: #6366f1; border-bottom: 2px solid #6366f1; padding-bottom: 10px; }
+    .field { margin-bottom: 15px; }
+    .field strong { display: inline-block; width: 100px; color: #555; }
+    .message { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 10px; }
+    .footer { margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd; color: #777; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>New Contact Form Submission</h2>
+    <div class="field">
+      <strong>Name:</strong> ${formData.name}
+    </div>
+    <div class="field">
+      <strong>Email:</strong> ${formData.email}
+    </div>
+    <div class="field">
+      <strong>Subject:</strong> ${formData.subject || 'No subject'}
+    </div>
+    <div class="field">
+      <strong>Message:</strong>
+      <div class="message">${formData.message.replace(/\n/g, '<br>')}</div>
+    </div>
+    <div class="footer">
+      <p>Sent from your portfolio contact form at ${new Date().toLocaleString()}</p>
+    </div>
+  </div>
+</body>
+</html>
+`.trim()
+    );
+
+    await env.EMAIL.send(message);
+  } catch (error) {
+    throw new Error(`Failed to send email via Cloudflare Email Worker: ${error}`);
+  }
 }
 
-export const POST: APIRoute = async ({ request }) => {
+// EmailMessage helper class for Cloudflare Email Worker
+class EmailMessage {
+  constructor(
+    public from: string,
+    public to: string,
+    public rawBody: string
+  ) {}
+}
+
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Parse form data
     const formData = await request.formData();
@@ -120,8 +144,10 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Send email
-    await sendEmail(data);
+    // Send email using Cloudflare Email Worker
+    // Access the runtime environment from locals.runtime.env
+    const env = (locals as any)?.runtime?.env || {};
+    await sendEmail(data, env);
 
     return new Response(JSON.stringify({
       success: true,

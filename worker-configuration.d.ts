@@ -4,6 +4,9 @@
 declare namespace Cloudflare {
 	interface Env {
 		ASSETS: Fetcher;
+		EMAIL: SendEmail;
+		TO_EMAIL: string;
+		FROM_EMAIL: string;
 	}
 }
 interface Env extends Cloudflare.Env {}

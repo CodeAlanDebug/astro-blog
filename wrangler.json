@@ -10,5 +10,15 @@
   "observability": {
     "enabled": true
   },
-  "upload_source_maps": true
+  "upload_source_maps": true,
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "contact@example.com"
+    }
+  ],
+  "vars": {
+    "TO_EMAIL": "contact@example.com",
+    "FROM_EMAIL": "noreply@example.com"
+  }
 }
