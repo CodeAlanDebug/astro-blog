@@ -16,6 +16,7 @@ Features:
 - ✅ Sitemap support
 - ✅ RSS Feed support
 - ✅ Markdown & MDX support
+- ✅ Contact form with Cloudflare Email Worker integration
 
 <!-- dash-content-end -->
 
@@ -52,6 +53,31 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`               | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help`         | Get help using the Astro CLI                     |
 | `npm run build && npm run deploy` | Deploy your production site to Cloudflare        |
+
+## 📧 Contact Form Setup
+
+This template includes a working contact form powered by Cloudflare Email Worker. To enable it:
+
+1. **Enable Email Routing** in your Cloudflare Dashboard (Email > Email Routing)
+2. **Verify a destination email** where you want to receive contact form submissions
+3. **Update `wrangler.json`** with your email configuration:
+   ```json
+   {
+     "send_email": [
+       {
+         "name": "EMAIL",
+         "destination_address": "your-verified@email.com"
+       }
+     ],
+     "vars": {
+       "TO_EMAIL": "your-verified@email.com",
+       "FROM_EMAIL": "noreply@yourdomain.com"
+     }
+   }
+   ```
+4. **Deploy** your site with `npm run deploy`
+
+For detailed setup instructions, see [CONTACT_SETUP.md](./CONTACT_SETUP.md) and [CLOUDFLARE_SETUP.md](./CLOUDFLARE_SETUP.md).
 
 ## 👀 Want to learn more?
 
