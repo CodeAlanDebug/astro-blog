@@ -2,6 +2,19 @@
 
 This project uses GitHub Actions to automatically build and deploy to Cloudflare Workers whenever changes are pushed to the main branch.
 
+## Quick Start - Publishing a Blog Post
+
+1. **Create a new blog post** in `src/content/blog/my-post.md`
+2. **Commit and push** to main branch:
+   ```bash
+   git add src/content/blog/my-post.md
+   git commit -m "Add new blog post: My Post"
+   git push origin main
+   ```
+3. **Automatic deployment** happens within 2-3 minutes
+4. **Check deployment status** in the Actions tab on GitHub
+5. **Visit your site** - new post is live!
+
 ## Prerequisites
 
 Before the automated deployment can work, you need to set up the following:
@@ -43,12 +56,23 @@ The GitHub Actions workflow (`.github/workflows/deploy.yml`) will automatically:
 
 The deployment workflow runs when:
 
-1. **Code is pushed** to `main` or `master` branch
-2. **Blog posts are updated** (changes in `src/content/blog/`)
-3. **Components or styles change** (changes in `src/pages/`, `src/components/`, `src/styles/`)
-4. **Dependencies change** (`package.json` or `astro.config.mjs`)
-5. **Manual trigger** via GitHub Actions UI
-6. **Pull requests** are opened (for testing only, won't deploy)
+1. **New blog posts added** (`.md` or `.mdx` files in `src/content/blog/`)
+2. **Existing blog posts updated** (any changes to markdown files)
+3. **Code changes pushed** to `main` or `master` branch in:
+   - Pages (`src/pages/**`)
+   - Components (`src/components/**`)
+   - Styles (`src/styles/**`)
+   - Layouts (`src/layouts/**`)
+   - Public assets (`public/**`)
+4. **Configuration changes**:
+   - `package.json` or `package-lock.json`
+   - `astro.config.mjs`
+   - `wrangler.json`
+   - `.github/workflows/deploy.yml`
+5. **Manual trigger** via GitHub Actions UI (Deploy button)
+6. **Pull requests** to main/master (for testing only, won't deploy)
+
+**Important:** Deployment only happens on the `main` or `master` branch. Changes to feature branches will only run tests, not deploy.
 
 ### Workflow Steps
 
