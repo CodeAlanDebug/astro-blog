@@ -1,0 +1,117 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  # Trigger on push to main/master branch
+  push:
+    branches:
+      - main
+      - master
+    # Deploy on any changes to these paths:
+    # - Blog posts (*.md, *.mdx)
+    # - Pages, components, styles, layouts
+    # - Configuration files
+    paths:
+      - 'src/content/blog/**/*.md'
+      - 'src/content/blog/**/*.mdx'
+      - 'src/content/**'
+      - 'src/pages/**'
+      - 'src/components/**'
+      - 'src/styles/**'
+      - 'src/layouts/**'
+      - 'public/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'astro.config.mjs'
+      - 'wrangler.json'
+      - '.github/workflows/deploy.yml'
+
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+  # Test on pull requests (won't deploy)
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    name: Build & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run type checks
+        run: npm run check
+
+      - name: Build site
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  deploy:
+    name: Deploy to Cloudflare Workers
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Deploy to Cloudflare Workers
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+          workingDirectory: .
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "✅ Deployment successful!"
+            echo "🚀 Site deployed to Cloudflare Workers"
+            echo "📝 Worker: astro-blog-starter"
+            echo "🌐 Check Cloudflare dashboard for live URL"
+            echo "⏱️  Deployed: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          else
+            echo "❌ Deployment failed!"
+            echo ""
+            echo "Troubleshooting checklist:"
+            echo "  • Verify CLOUDFLARE_API_TOKEN in GitHub Secrets"
+            echo "  • Verify CLOUDFLARE_ACCOUNT_ID in GitHub Secrets"
+            echo "  • Ensure API token has 'Workers Scripts: Edit' permission"
+            echo "  • Check logs above for specific error details"
+          fi

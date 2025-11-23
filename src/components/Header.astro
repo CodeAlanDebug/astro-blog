@@ -52,19 +52,19 @@ import { SITE_TITLE } from "../consts";
     z-index: 1000;
     margin: 0;
     padding: 0;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    background: var(--glass-bg);
+    backdrop-filter: var(--blur-medium);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
   }
 
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 1rem var(--container-padding);
   }
 
   h2 {
@@ -75,12 +75,12 @@ import { SITE_TITLE } from "../consts";
 
   h2 a {
     text-decoration: none;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 800;
-    transition: all 0.3s ease;
+    transition: var(--transition-normal);
   }
 
   h2 a:hover {
@@ -92,10 +92,10 @@ import { SITE_TITLE } from "../consts";
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--blur-light);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-pill);
     padding: 0.5rem;
   }
 
@@ -111,19 +111,19 @@ import { SITE_TITLE } from "../consts";
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--glass-bg);
+    backdrop-filter: var(--blur-light);
+    border: 1px solid var(--glass-border);
     border-radius: 50%;
-    color: white;
+    color: var(--text-white);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: var(--transition-normal);
   }
 
   .social-links a:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--glass-bg-strong);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-sm);
   }
 
   .social-links svg {
