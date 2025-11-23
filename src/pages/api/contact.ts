@@ -101,50 +101,66 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: any) {
   const safeSubject = escapeHtml(formData.subject || 'No subject');
   const safeMessage = escapeHtml(formData.message).replace(/\n/g, '<br>');
 
-  // Create email message
-  const message = {
-    from: {
-      email: 'noreply@alan.one',
-      name: 'Portfolio Contact Form'
-    },
-    to: [
-      {
-        email: 'hey@alanszheng.com',
-        name: 'Alan Zheng'
-      }
-    ],
-    subject: `Portfolio Contact: ${safeSubject}`,
-    html: `
-      <h2>New Contact Form Submission</h2>
-      <p><strong>Name:</strong> ${safeName}</p>
-      <p><strong>Email:</strong> ${safeEmail}</p>
-      <p><strong>Reply-To:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>
-      <p><strong>Subject:</strong> ${safeSubject}</p>
-      <p><strong>Message:</strong></p>
-      <p>${safeMessage}</p>
-      <hr>
-      <p><small>Sent from your portfolio contact form at ${new Date().toLocaleString()}</small></p>
-    `,
-    text: `
-New Contact Form Submission
+  const plainTextMessage = formData.message;
+  const boundary = `boundary-${Date.now()}`;
+  const timestamp = new Date().toLocaleString();
 
-Name: ${formData.name}
-Email: ${formData.email}
-Subject: ${formData.subject || 'No subject'}
-
-Message:
-${formData.message}
-
----
-Sent from your portfolio contact form at ${new Date().toLocaleString()}
-    `.trim(),
-    headers: {
-      'Reply-To': safeEmail
-    }
-  };
+  // Create RFC 5322 formatted email (MIME message)
+  const emailContent = [
+    `From: Portfolio Contact Form <noreply@alan.one>`,
+    `To: Alan Zheng <hey@alanszheng.com>`,
+    `Reply-To: ${formData.email}`,
+    `Subject: Portfolio Contact: ${formData.subject || 'No subject'}`,
+    `MIME-Version: 1.0`,
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+    `Date: ${new Date().toUTCString()}`,
+    ``,
+    `--${boundary}`,
+    `Content-Type: text/plain; charset=utf-8`,
+    `Content-Transfer-Encoding: 7bit`,
+    ``,
+    `New Contact Form Submission`,
+    ``,
+    `Name: ${formData.name}`,
+    `Email: ${formData.email}`,
+    `Subject: ${formData.subject || 'No subject'}`,
+    ``,
+    `Message:`,
+    `${plainTextMessage}`,
+    ``,
+    `---`,
+    `Sent from your portfolio contact form at ${timestamp}`,
+    ``,
+    `--${boundary}`,
+    `Content-Type: text/html; charset=utf-8`,
+    `Content-Transfer-Encoding: 7bit`,
+    ``,
+    `<html>`,
+    `<body>`,
+    `<h2>New Contact Form Submission</h2>`,
+    `<p><strong>Name:</strong> ${safeName}</p>`,
+    `<p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>`,
+    `<p><strong>Subject:</strong> ${safeSubject}</p>`,
+    `<p><strong>Message:</strong></p>`,
+    `<p>${safeMessage}</p>`,
+    `<hr>`,
+    `<p><small>Sent from your portfolio contact form at ${timestamp}</small></p>`,
+    `</body>`,
+    `</html>`,
+    ``,
+    `--${boundary}--`,
+  ].join('\r\n');
 
   try {
     // Use Cloudflare Email Routing Send API
+    // EmailMessage expects: from (string), to (string), raw (string | ReadableStream)
+    const { EmailMessage } = await import('cloudflare:email');
+    const message = new EmailMessage(
+      'noreply@alan.one',
+      'hey@alanszheng.com',
+      emailContent
+    );
+
     await sendEmailBinding.send(message);
   } catch (error) {
     console.error('Email send error:', error);
