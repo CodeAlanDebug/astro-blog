@@ -10,8 +10,14 @@ import icon from "astro-icon";
 // https://astro.build/config
 export default defineConfig({
   site: "https://alan.one",
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+    },
+  },
   integrations: [mdx(), sitemap(), icon()],
   adapter: cloudflare({
+    imageService: 'compile',
     platformProxy: {
       enabled: true,
     },
