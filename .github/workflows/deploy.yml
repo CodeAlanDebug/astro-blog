@@ -88,6 +88,9 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Copy .assetsignore to dist
+        run: cp public/.assetsignore dist/.assetsignore
+
       - name: Deploy to Cloudflare Workers
         id: deploy
         uses: cloudflare/wrangler-action@v3
