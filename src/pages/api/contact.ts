@@ -118,8 +118,8 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail)
   const sanitizedEmail = sanitizeEmailHeader(formData.email);
   const sanitizedSubject = sanitizeEmailHeader(formData.subject || 'No subject');
 
-  // Generate a unique Message-ID
-  const messageId = `<${Date.now()}.${Math.random().toString(36).substring(2)}@alan.one>`;
+  // Generate a unique Message-ID using a cryptographically secure random UUID
+  const messageId = `<${(typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : require('crypto').randomUUID())}@alan.one>`;
 
   // Create RFC 5322 formatted email (MIME message)
   const emailContent = [
