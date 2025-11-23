@@ -1,7 +1,7 @@
-name: Test Build
+name: Build & Validate
 
 on:
-  # Run on all pushes for testing
+  # Run on all pushes
   push:
 
   # Run on all pull requests
@@ -11,9 +11,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Build and test job
-  test-build:
-    name: Test Build
+  build:
+    name: Build & Validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,20 +27,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Type check
+      - name: Run type checks
         run: npm run check
 
-      - name: Build Astro site
+      - name: Build site
         run: npm run build
 
-      - name: Build success notification
-        if: success()
+      - name: Build summary
+        if: always()
         run: |
-          echo "✅ Build successful!"
-          echo "📦 Site built successfully"
-
-      - name: Build failure notification
-        if: failure()
-        run: |
-          echo "❌ Build failed!"
-          echo "Please check the logs for more details"
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "✅ Build successful - All checks passed"
+          else
+            echo "❌ Build failed - Check logs above for details"
+          fi

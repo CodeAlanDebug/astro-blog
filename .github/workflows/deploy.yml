@@ -35,9 +35,8 @@ on:
       - master
 
 jobs:
-  # Build and test job
   build:
-    name: Build and Test
+    name: Build & Type Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -52,10 +51,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Type check
+      - name: Run type checks
         run: npm run check
 
-      - name: Build Astro site
+      - name: Build site
         run: npm run build
 
       - name: Upload build artifacts
@@ -65,9 +64,8 @@ jobs:
           path: dist/
           retention-days: 1
 
-  # Deploy job (only runs on main/master branch)
   deploy:
-    name: Deploy to Cloudflare
+    name: Deploy to Cloudflare Workers
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
@@ -99,21 +97,21 @@ jobs:
           command: deploy
           workingDirectory: .
 
-      - name: Deployment success notification
-        if: success()
+      - name: Deployment summary
+        if: always()
         run: |
-          echo "✅ Deployment successful!"
-          echo "🚀 Your site has been deployed to Cloudflare Workers"
-          echo "📝 Worker: astro-blog-starter"
-          echo "🌐 Check your Cloudflare dashboard for the live URL"
-          echo "⏱️  Deployed at: $(date)"
-
-      - name: Deployment failure notification
-        if: failure()
-        run: |
-          echo "❌ Deployment failed!"
-          echo "Please check:"
-          echo "  1. CLOUDFLARE_API_TOKEN is set correctly in GitHub Secrets"
-          echo "  2. CLOUDFLARE_ACCOUNT_ID is set correctly in GitHub Secrets"
-          echo "  3. API token has 'Workers Scripts: Edit' permission"
-          echo "  4. Review the logs above for specific error messages"
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "✅ Deployment successful!"
+            echo "🚀 Site deployed to Cloudflare Workers"
+            echo "📝 Worker: astro-blog-starter"
+            echo "🌐 Check Cloudflare dashboard for live URL"
+            echo "⏱️  Deployed: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          else
+            echo "❌ Deployment failed!"
+            echo ""
+            echo "Troubleshooting checklist:"
+            echo "  • Verify CLOUDFLARE_API_TOKEN in GitHub Secrets"
+            echo "  • Verify CLOUDFLARE_ACCOUNT_ID in GitHub Secrets"
+            echo "  • Ensure API token has 'Workers Scripts: Edit' permission"
+            echo "  • Check logs above for specific error details"
+          fi
