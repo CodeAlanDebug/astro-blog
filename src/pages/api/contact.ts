@@ -1,5 +1,8 @@
 import type { APIRoute } from 'astro';
 
+// Ensure this route is server-rendered, not pre-rendered
+export const prerender = false;
+
 // TypeScript interfaces for type safety
 interface ContactFormData {
   name: string;
@@ -10,7 +13,7 @@ interface ContactFormData {
 }
 
 interface Env {
-  SEND_EMAIL?: any;
+  SEND_EMAIL?: SendEmail;
 }
 
 interface ValidationResult {
@@ -32,6 +35,12 @@ function escapeHtml(unsafe: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+// Sanitize email header to prevent email header injection
+function sanitizeEmailHeader(value: string): string {
+  // Remove any newline characters that could be used for header injection
+  return value.replace(/[\r\n]/g, '').trim();
 }
 
 // Rate limiting: max 5 requests per IP per 15 minutes
@@ -94,7 +103,7 @@ function validateFormData(data: ContactFormData): ValidationResult {
 }
 
 // Function to send email using Cloudflare Email Routing
-async function sendEmail(formData: ContactFormData, sendEmailBinding: any) {
+async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail) {
   // Escape all user inputs to prevent XSS
   const safeName = escapeHtml(formData.name);
   const safeEmail = escapeHtml(formData.email);
@@ -105,12 +114,16 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: any) {
   const boundary = `boundary-${Date.now()}`;
   const timestamp = new Date().toLocaleString();
 
+  // Sanitize email headers to prevent injection attacks
+  const sanitizedEmail = sanitizeEmailHeader(formData.email);
+  const sanitizedSubject = sanitizeEmailHeader(formData.subject || 'No subject');
+
   // Create RFC 5322 formatted email (MIME message)
   const emailContent = [
     `From: Portfolio Contact Form <noreply@alan.one>`,
     `To: Alan Zheng <hey@alanszheng.com>`,
-    `Reply-To: ${formData.email}`,
-    `Subject: Portfolio Contact: ${formData.subject || 'No subject'}`,
+    `Reply-To: ${sanitizedEmail}`,
+    `Subject: Portfolio Contact: ${sanitizedSubject}`,
     `MIME-Version: 1.0`,
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
     `Date: ${new Date().toUTCString()}`,
