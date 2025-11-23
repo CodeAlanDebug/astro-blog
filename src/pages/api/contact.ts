@@ -9,6 +9,10 @@ interface ContactFormData {
   website?: string;
 }
 
+interface Env {
+  SEND_EMAIL?: any;
+}
+
 interface ValidationResult {
   isValid: boolean;
   errors: string[];
@@ -89,66 +93,104 @@ function validateFormData(data: ContactFormData): ValidationResult {
   };
 }
 
-// Function to send email using MailChannels (free for Cloudflare Workers)
-async function sendEmail(formData: ContactFormData) {
+// Function to send email using Cloudflare Email Routing
+async function sendEmail(formData: ContactFormData, sendEmailBinding: any) {
   // Escape all user inputs to prevent XSS
   const safeName = escapeHtml(formData.name);
   const safeEmail = escapeHtml(formData.email);
   const safeSubject = escapeHtml(formData.subject || 'No subject');
   const safeMessage = escapeHtml(formData.message).replace(/\n/g, '<br>');
 
-  const emailData = {
-    personalizations: [
-      {
-        to: [{ email: 'astro@alan.one', name: 'Alan Zheng' }],
-        subject: `Portfolio Contact: ${safeSubject}`,
-      }
-    ],
-    from: {
-      email: 'noreply@alan.one',
-      name: 'Portfolio Contact Form'
-    },
-    content: [
-      {
-        type: 'text/html',
-        value: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${safeName}</p>
-          <p><strong>Email:</strong> ${safeEmail}</p>
-          <p><strong>Subject:</strong> ${safeSubject}</p>
-          <p><strong>Message:</strong></p>
-          <p>${safeMessage}</p>
-          <hr>
-          <p><small>Sent from your portfolio contact form at ${new Date().toLocaleString()}</small></p>
-        `
-      }
-    ]
-  };
+  const plainTextMessage = formData.message;
+  const boundary = `boundary-${Date.now()}`;
+  const timestamp = new Date().toLocaleString();
 
-  // MailChannels API (free for Cloudflare Workers)
-  // Note: You may need to add SPF records to your domain for MailChannels
-  // Add this TXT record to your domain: "v=spf1 a mx include:relay.mailchannels.net ~all"
-  const response = await fetch('https://api.mailchannels.net/tx/v1/send', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(emailData),
-  });
+  // Create RFC 5322 formatted email (MIME message)
+  const emailContent = [
+    `From: Portfolio Contact Form <noreply@alan.one>`,
+    `To: Alan Zheng <hey@alanszheng.com>`,
+    `Reply-To: ${formData.email}`,
+    `Subject: Portfolio Contact: ${formData.subject || 'No subject'}`,
+    `MIME-Version: 1.0`,
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+    `Date: ${new Date().toUTCString()}`,
+    ``,
+    `--${boundary}`,
+    `Content-Type: text/plain; charset=utf-8`,
+    `Content-Transfer-Encoding: 7bit`,
+    ``,
+    `New Contact Form Submission`,
+    ``,
+    `Name: ${formData.name}`,
+    `Email: ${formData.email}`,
+    `Subject: ${formData.subject || 'No subject'}`,
+    ``,
+    `Message:`,
+    `${plainTextMessage}`,
+    ``,
+    `---`,
+    `Sent from your portfolio contact form at ${timestamp}`,
+    ``,
+    `--${boundary}`,
+    `Content-Type: text/html; charset=utf-8`,
+    `Content-Transfer-Encoding: 7bit`,
+    ``,
+    `<html>`,
+    `<body>`,
+    `<h2>New Contact Form Submission</h2>`,
+    `<p><strong>Name:</strong> ${safeName}</p>`,
+    `<p><strong>Email:</strong> <a href="mailto:${safeEmail}">${safeEmail}</a></p>`,
+    `<p><strong>Subject:</strong> ${safeSubject}</p>`,
+    `<p><strong>Message:</strong></p>`,
+    `<p>${safeMessage}</p>`,
+    `<hr>`,
+    `<p><small>Sent from your portfolio contact form at ${timestamp}</small></p>`,
+    `</body>`,
+    `</html>`,
+    ``,
+    `--${boundary}--`,
+  ].join('\r\n');
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Failed to send email: ${response.status} - ${errorText}`);
+  try {
+    // Use Cloudflare Email Routing Send API
+    // EmailMessage expects: from (string), to (string), raw (string | ReadableStream)
+    const { EmailMessage } = await import('cloudflare:email');
+    const message = new EmailMessage(
+      'noreply@alan.one',
+      'hey@alanszheng.com',
+      emailContent
+    );
+
+    await sendEmailBinding.send(message);
+  } catch (error) {
+    console.error('Email send error:', error);
+    throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
-
-  return response;
 }
 
-export const POST: APIRoute = async ({ request, clientAddress }) => {
+export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
   // Allowed origin for CORS (update this to your actual domain)
   const allowedOrigin = 'https://alan.one';
 
   try {
+    // Get the email binding from runtime
+    const runtime = locals.runtime as { env: Env };
+    const sendEmailBinding = runtime?.env?.SEND_EMAIL;
+
+    if (!sendEmailBinding) {
+      console.error('SEND_EMAIL binding not found');
+      return new Response(JSON.stringify({
+        success: false,
+        message: 'Email service is not configured. Please contact the administrator.'
+      }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': allowedOrigin,
+        }
+      });
+    }
+
     // Rate limiting check
     const clientIp = clientAddress || 'unknown';
     if (!checkRateLimit(clientIp)) {
@@ -194,7 +236,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     }
 
     // Send email
-    await sendEmail(data);
+    await sendEmail(data, sendEmailBinding);
 
     return new Response(JSON.stringify({
       success: true,
