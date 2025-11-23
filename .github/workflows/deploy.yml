@@ -1,20 +1,20 @@
 name: Deploy to Cloudflare Workers
 
 on:
-  # Trigger on push to main branch
+  # Trigger on push to main branch and specific file changes
   push:
     branches:
       - main
       - master
-
-  # Trigger when blog posts are updated
-  paths:
-    - 'src/content/blog/**'
-    - 'src/pages/**'
-    - 'src/components/**'
-    - 'src/styles/**'
-    - 'package.json'
-    - 'astro.config.mjs'
+    paths:
+      - 'src/content/blog/**'
+      - 'src/pages/**'
+      - 'src/components/**'
+      - 'src/styles/**'
+      - 'src/layouts/**'
+      - 'package.json'
+      - 'astro.config.mjs'
+      - 'wrangler.json'
 
   # Allow manual trigger
   workflow_dispatch:
