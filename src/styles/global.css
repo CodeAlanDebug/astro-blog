@@ -5,6 +5,7 @@
  */
 
 :root {
+  /* Legacy colors */
   --accent: #2337ff;
   --accent-dark: #000d8a;
   --black: 15, 18, 25;
@@ -14,6 +15,58 @@
   --gray-gradient: rgba(var(--gray-light), 50%), #fff;
   --box-shadow: 0 2px 6px rgba(var(--gray), 25%),
     0 8px 24px rgba(var(--gray), 33%), 0 16px 32px rgba(var(--gray), 33%);
+
+  /* Theme Colors - Primary Gradient */
+  --color-primary-start: #6366f1;
+  --color-primary-mid: #8b5cf6;
+  --color-primary-end: #d946ef;
+  --color-accent-purple: #8b5cf6;
+  --color-accent-pink: #d946ef;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary-start) 0%, var(--color-primary-mid) 50%, var(--color-primary-end) 100%);
+  --gradient-text: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #e2e8f0 100%);
+  --gradient-background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg-hover: rgba(255, 255, 255, 0.15);
+  --glass-bg-strong: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-border-strong: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.2);
+
+  /* Backdrop Filter */
+  --blur-light: blur(10px);
+  --blur-medium: blur(20px);
+
+  /* Text Colors */
+  --text-white: white;
+  --text-white-90: rgba(255, 255, 255, 0.9);
+  --text-white-80: rgba(255, 255, 255, 0.8);
+  --text-white-60: rgba(255, 255, 255, 0.6);
+
+  /* Spacing */
+  --border-radius-sm: 0.75rem;
+  --border-radius-md: 1rem;
+  --border-radius-lg: 1.5rem;
+  --border-radius-xl: 2rem;
+  --border-radius-pill: 2rem;
+
+  /* Container */
+  --container-max-width: 1200px;
+  --container-padding: 2rem;
+
+  /* Transitions */
+  --transition-fast: all 0.2s ease;
+  --transition-normal: all 0.3s ease;
+
+  /* Shadows */
+  --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 40px rgba(255, 255, 255, 0.3);
 }
 @font-face {
   font-family: "Atkinson";
@@ -34,11 +87,11 @@ body {
   margin: 0;
   padding: 0;
   text-align: left;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  background: var(--gradient-background);
   background-attachment: fixed;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-white-90);
   font-size: 20px;
   line-height: 1.7;
   min-height: 100vh;
@@ -56,7 +109,7 @@ h4,
 h5,
 h6 {
   margin: 0 0 0.5rem 0;
-  color: white;
+  color: var(--text-white);
   line-height: 1.2;
 }
 h1 {
@@ -79,10 +132,10 @@ b {
   font-weight: 700;
 }
 a {
-  color: #8b5cf6;
+  color: var(--color-accent-purple);
 }
 a:hover {
-  color: #d946ef;
+  color: var(--color-accent-pink);
 }
 p {
   margin-bottom: 1em;
