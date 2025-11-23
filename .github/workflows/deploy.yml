@@ -101,7 +101,6 @@ jobs:
           command: deploy --commit-dirty
           workingDirectory: .
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: Deployment summary
         if: always()
