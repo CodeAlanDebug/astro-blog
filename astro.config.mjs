@@ -16,4 +16,8 @@ export default defineConfig({
       enabled: true,
     },
   }),
+  // Enable CSRF protection but allow requests from development and production origins
+  security: {
+    checkOrigin: true,
+  },
 });

@@ -118,12 +118,16 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail)
   const sanitizedEmail = sanitizeEmailHeader(formData.email);
   const sanitizedSubject = sanitizeEmailHeader(formData.subject || 'No subject');
 
+  // Generate a unique Message-ID
+  const messageId = `<${Date.now()}.${Math.random().toString(36).substring(2)}@alan.one>`;
+
   // Create RFC 5322 formatted email (MIME message)
   const emailContent = [
     `From: Portfolio Contact Form <noreply@alan.one>`,
     `To: Alan Zheng <hey@alanszheng.com>`,
     `Reply-To: ${sanitizedEmail}`,
     `Subject: Portfolio Contact: ${sanitizedSubject}`,
+    `Message-ID: ${messageId}`,
     `MIME-Version: 1.0`,
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
     `Date: ${new Date().toUTCString()}`,
