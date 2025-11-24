@@ -131,6 +131,7 @@
   flex-direction: column;
   height: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .contact-form form {
@@ -152,6 +153,8 @@
 
 .form-group {
   margin-bottom: 1.35rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group label {
@@ -173,6 +176,7 @@
   font-size: 1rem;
   transition: var(--transition-normal);
   backdrop-filter: var(--blur-light);
+  box-sizing: border-box;
 }
 
 .form-group input::placeholder,
