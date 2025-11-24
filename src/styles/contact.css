@@ -331,16 +331,27 @@
   }
 
   .contact-container {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     padding: 0 1rem;
     margin-bottom: 2rem;
+  }
+
+  .contact-info {
+    order: 2;
+  }
+
+  .contact-form {
+    order: 1;
   }
 
   .contact-info,
   .contact-form {
     padding: 2rem;
     height: auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .contact-info h2,
@@ -412,6 +423,8 @@
   }
 
   .contact-container {
+    display: flex;
+    flex-direction: column;
     padding: 0 1rem;
     gap: 1.5rem;
   }
@@ -420,6 +433,8 @@
   .contact-form {
     padding: 1.5rem;
     height: auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .contact-info h2,
