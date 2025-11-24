@@ -50,6 +50,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  box-sizing: border-box;
 }
 
 .contact-info h2 {
@@ -129,6 +130,14 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .contact-form h2 {
@@ -144,6 +153,8 @@
 
 .form-group {
   margin-bottom: 1.35rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group label {
@@ -165,6 +176,7 @@
   font-size: 1rem;
   transition: var(--transition-normal);
   backdrop-filter: var(--blur-light);
+  box-sizing: border-box;
 }
 
 .form-group input::placeholder,
@@ -205,6 +217,7 @@
   width: 100%;
   position: relative;
   overflow: hidden;
+  margin-top: auto;
 }
 
 .submit-btn:hover {
@@ -322,15 +335,27 @@
   }
 
   .contact-container {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     padding: 0 1rem;
     margin-bottom: 2rem;
   }
 
+  .contact-info {
+    order: 2;
+  }
+
+  .contact-form {
+    order: 1;
+  }
+
   .contact-info,
   .contact-form {
     padding: 2rem;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .contact-info h2,
@@ -402,6 +427,8 @@
   }
 
   .contact-container {
+    display: flex;
+    flex-direction: column;
     padding: 0 1rem;
     gap: 1.5rem;
   }
@@ -409,6 +436,9 @@
   .contact-info,
   .contact-form {
     padding: 1.5rem;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .contact-info h2,
