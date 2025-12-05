@@ -1,28 +1,42 @@
 version: 2
 updates:
-  # Check for npm dependency updates on main
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
     open-pull-requests-limit: 10
     commit-message:
       prefix: "chore(deps)"
+    labels:
+      - "dependencies"
+    groups:
+      # Group all Astro-related packages together
+      astro:
+        patterns:
+          - "astro*"
+          - "@astrojs/*"
+      # Group all dev dependencies together
+      dev-dependencies:
+        dependency-type: "development"
+      # Group minor and patch updates for production deps
+      production-minor-patch:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
 
-  # Check for GitHub Actions updates on main
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
     commit-message:
       prefix: "chore(ci)"
-
-  # Example: Check npm updates on a specific branch
-  # Uncomment and modify if you have long-lived feature branches
-  # - package-ecosystem: "npm"
-  #   directory: "/"
-  #   target-branch: "develop"
-  #   schedule:
-  #     interval: "weekly"
-  #   commit-message:
-  #     prefix: "chore(deps)"
+    labels:
+      - "ci"
+    groups:
+      # Group all GitHub Actions updates together
+      actions:
+        patterns:
+          - "*"
