@@ -26,6 +26,23 @@ import "../styles/contact.css";
         form.addEventListener("submit", async function (e) {
           e.preventDefault();
 
+          // Set user's local time before submission
+          const userLocalTimeField = document.getElementById("userLocalTime") as HTMLInputElement;
+          if (userLocalTimeField) {
+            const now = new Date();
+            const options: Intl.DateTimeFormatOptions = {
+              weekday: 'short',
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              timeZoneName: 'short'
+            };
+            userLocalTimeField.value = now.toLocaleString(undefined, options);
+          }
+
           // Clear any previous errors
           const errors = form.querySelectorAll(".form-error");
           errors.forEach((error: Element) => {
@@ -203,6 +220,9 @@ import "../styles/contact.css";
                 autocomplete="off"
               />
             </div>
+
+            <!-- Hidden field for user's local time -->
+            <input type="hidden" id="userLocalTime" name="userLocalTime" />
 
             <div class="form-group">
               <label for="name">Your Name *</label>
