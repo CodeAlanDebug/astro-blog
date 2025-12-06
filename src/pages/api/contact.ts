@@ -10,6 +10,7 @@ interface ContactFormData {
   subject: string;
   message: string;
   website?: string;
+  userLocalTime?: string;
 }
 
 interface Env {
@@ -103,16 +104,18 @@ function validateFormData(data: ContactFormData): ValidationResult {
 }
 
 // Function to send email using Cloudflare Email Routing
-async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail) {
+async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail, clientIp: string) {
   // Escape all user inputs to prevent XSS
   const safeName = escapeHtml(formData.name);
   const safeEmail = escapeHtml(formData.email);
   const safeSubject = escapeHtml(formData.subject || 'No subject');
   const safeMessage = escapeHtml(formData.message).replace(/\n/g, '<br>');
+  const safeUserLocalTime = escapeHtml(formData.userLocalTime || 'Not provided');
+  const safeClientIp = escapeHtml(clientIp);
 
   const plainTextMessage = formData.message;
   const boundary = `boundary-${Date.now()}`;
-  const timestamp = new Date().toLocaleString();
+  const userLocalTime = formData.userLocalTime || 'Not provided';
 
   // Sanitize email headers to prevent injection attacks
   const sanitizedEmail = sanitizeEmailHeader(formData.email);
@@ -146,7 +149,8 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail)
     `${plainTextMessage}`,
     ``,
     `---`,
-    `Sent from your portfolio contact form at ${timestamp}`,
+    `Sender's Local Time: ${userLocalTime}`,
+    `Sender's IP Address: ${clientIp}`,
     ``,
     `--${boundary}`,
     `Content-Type: text/html; charset=utf-8`,
@@ -161,7 +165,8 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail)
     `<p><strong>Message:</strong></p>`,
     `<p>${safeMessage}</p>`,
     `<hr>`,
-    `<p><small>Sent from your portfolio contact form at ${timestamp}</small></p>`,
+    `<p><small><strong>Sender's Local Time:</strong> ${safeUserLocalTime}</small></p>`,
+    `<p><small><strong>Sender's IP Address:</strong> ${safeClientIp}</small></p>`,
     `</body>`,
     `</html>`,
     ``,
@@ -232,6 +237,7 @@ export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
       subject: formData.get('subject')?.toString() || '',
       message: formData.get('message')?.toString() || '',
       website: formData.get('website')?.toString() || '', // Honeypot field
+      userLocalTime: formData.get('userLocalTime')?.toString() || '',
     };
 
     // Validate form data
@@ -253,7 +259,7 @@ export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
     }
 
     // Send email
-    await sendEmail(data, sendEmailBinding);
+    await sendEmail(data, sendEmailBinding, clientIp);
 
     return new Response(JSON.stringify({
       success: true,
