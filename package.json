@@ -22,9 +22,9 @@
     "astro-icon": "^1.1.5"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.5",
-    "typescript": "^5.8.3",
-    "wrangler": "^4.50.0"
+    "@astrojs/check": "^0.9.6",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.53.0"
   },
   "engines": {
     "node": ">=18.17.1"
