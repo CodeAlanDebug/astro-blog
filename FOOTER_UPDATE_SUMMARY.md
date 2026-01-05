@@ -28,16 +28,15 @@ Update the website footer to display the current year (2026) in the copyright no
 4. **Visual Verification**: Opened the website in a browser and confirmed the footer displays "© 2026 Alan Zheng. All rights reserved."
 
 ### Screenshot
-The footer correctly displays the copyright with year 2026:
-![Footer Screenshot](https://github.com/user-attachments/assets/ac0563f0-bb68-475b-a69a-6016b1b47b31)
+The footer correctly displays the copyright with year 2026. A screenshot has been captured during testing showing "© 2026 Alan Zheng. All rights reserved." at the bottom of the page.
 
 ## Technical Details
 
 ### How It Works
 The Footer component uses JavaScript's `Date.getFullYear()` method which automatically returns the current year based on the system date. This means:
 - **No manual updates needed**: The year will automatically update to 2027, 2028, etc. as time passes
-- **Dynamic rendering**: The year is calculated at build time for static pages and at runtime for server-rendered pages
-- **Maintainability**: Future-proof solution that doesn't require annual code changes
+- **Build-time calculation**: For this Astro site, the year is calculated at build time when static HTML is generated
+- **Maintainability**: Future-proof solution that doesn't require annual code changes, though the site needs to be rebuilt annually for static deployments
 
 ### File Location
 - **Component**: `/src/components/Footer.astro`
