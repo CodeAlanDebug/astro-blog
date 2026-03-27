@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 // Ensure this route is server-rendered, not pre-rendered
 export const prerender = false;
@@ -11,10 +12,6 @@ interface ContactFormData {
   message: string;
   website?: string;
   userLocalTime?: string;
-}
-
-interface Env {
-  SEND_EMAIL?: SendEmail;
 }
 
 interface ValidationResult {
@@ -190,14 +187,13 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail,
   }
 }
 
-export const POST: APIRoute = async ({ request, clientAddress, locals }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
   // Allowed origin for CORS (update this to your actual domain)
   const allowedOrigin = 'https://alan.one';
 
   try {
-    // Get the email binding from runtime
-    const runtime = locals.runtime as { env: Env };
-    const sendEmailBinding = runtime?.env?.SEND_EMAIL;
+    // Get the email binding from Cloudflare environment
+    const sendEmailBinding = env.SEND_EMAIL;
 
     if (!sendEmailBinding) {
       console.error('SEND_EMAIL binding not found');
