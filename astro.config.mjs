@@ -11,11 +11,7 @@ import icon from "astro-icon";
 export default defineConfig({
   site: "https://alan.one",
   integrations: [mdx(), sitemap(), icon()],
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true,
-    },
-  }),
+  adapter: cloudflare(),
   // Enable CSRF protection but allow requests from development and production origins
   security: {
     checkOrigin: true,
