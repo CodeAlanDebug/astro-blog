@@ -34,6 +34,11 @@ jobs:
 
       - name: Build site
         run: npm run build
+        env:
+          # Placeholders satisfy astro:env build-time validation for the
+          # CMS OAuth routes; real values live in Cloudflare Workers Builds.
+          OAUTH_GITHUB_CLIENT_ID: ci-placeholder
+          OAUTH_GITHUB_CLIENT_SECRET: ci-placeholder
 
       - name: Build summary
         if: always()
