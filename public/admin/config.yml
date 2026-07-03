@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: CodeAlanDebug/astro-blog
+  branch: main
+  base_url: https://alan.one
+  auth_endpoint: oauth
+
+media_folder: public/images/blog
+public_folder: /images/blog
+
+collections:
+  - name: blog
+    label: Blog posts
+    folder: src/content/blog
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Description, widget: text }
+      - { name: pubDate, label: Publish date, widget: datetime }
+      - { name: updatedDate, label: Updated date, widget: datetime, required: false }
+      - { name: heroImage, label: Hero image, widget: image, required: false }
+      - { name: body, label: Body, widget: markdown }
