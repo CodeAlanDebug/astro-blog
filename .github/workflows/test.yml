@@ -1,8 +1,10 @@
 name: Build & Validate
 
 on:
-  # Run on all pushes
+  # Run on pushes to main (feature branches are covered by pull_request)
   push:
+    branches:
+      - main
 
   # Run on all pull requests
   pull_request:
