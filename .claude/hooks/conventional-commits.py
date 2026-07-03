@@ -17,13 +17,18 @@ import re
 import sys
 
 TYPES = "feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert"
-CONVENTIONAL = re.compile(rf"^(?:{TYPES})(?:\([^)]*\))?!?: .+")
+# Subject must start with a non-whitespace character — "feat:   " is not
+# a real subject.
+CONVENTIONAL = re.compile(rf"^(?:{TYPES})(?:\([^)]*\))?!?: \S.*")
 
 HEREDOC = re.compile(r"<<-?\s*(['\"]?)(\w+)\1\s*\n(.*?)\n\s*\2(?=\s|$|\))", re.S)
 # Value forms: "double quoted", 'single quoted', or bare word.
 VALUE = r"(\"(?:[^\"\\]|\\.)*\"|'[^']*'|\S+)"
-COMMIT_MSG = re.compile(rf"(?:^|\s)-m(?:\s+|=){VALUE}")
-PR_TITLE = re.compile(rf"--title(?:\s+|=){VALUE}")
+# -m in any short-flag bundle (-am, -sm), with the value spaced or attached
+# (-m"msg"), plus the --message long form. search() takes the FIRST match,
+# which git uses as the subject line.
+COMMIT_MSG = re.compile(rf"(?:^|\s)(?:--message(?:=|\s+)|-[a-zA-Z]*m\s*){VALUE}")
+PR_TITLE = re.compile(rf"(?:^|\s)(?:--title(?:=|\s+)|-t\s*){VALUE}")
 
 
 def deny(kind, subject):
