@@ -312,6 +312,12 @@
   z-index: 1;
 }
 
+.cta-actions {
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
 .cta-button {
   display: inline-block;
   background: var(--glass-bg-hover);

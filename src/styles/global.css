@@ -87,14 +87,25 @@ body {
   margin: 0;
   padding: 0;
   text-align: left;
-  background: var(--gradient-background);
-  background-attachment: fixed;
+  background: #0f0f23;
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: var(--text-white-90);
   font-size: 20px;
   line-height: 1.7;
   min-height: 100vh;
+}
+
+/* Fixed gradient backdrop on its own compositor layer — replaces
+   background-attachment: fixed, which repaints on scroll and is
+   unsupported on iOS Safari. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--gradient-background);
+  pointer-events: none;
 }
 main {
   width: 100%;
@@ -190,6 +201,17 @@ hr {
   }
   main {
     padding: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
