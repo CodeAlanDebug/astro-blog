@@ -1,5 +1,5 @@
 {
-  "name": "astro-blog-starter",
+  "name": "astro-blog",
   "compatibility_date": "2025-04-01",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@astrojs/cloudflare/entrypoints/server",
