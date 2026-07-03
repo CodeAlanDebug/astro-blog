@@ -36,7 +36,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   margin-bottom: 4rem;
-  align-items: start;
+  /* default align-items: stretch equalizes card heights;
+     the form's textarea flex-grows to absorb the difference */
 }
 
 .contact-info {
