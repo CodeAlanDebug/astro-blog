@@ -1,0 +1,102 @@
+{
+  "basics": {
+    "name": "Alan Zheng",
+    "label": "Software Engineer",
+    "email": "hey@alanszheng.com",
+    "url": "https://alan.one",
+    "summary": "Software Engineer crafting the future with cloud infrastructure, AI, and decentralized technologies. I build scalable, innovative systems at the intersection of emerging technologies.",
+    "location": {
+      "city": "Replace with your city",
+      "countryCode": ""
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "CodeAlanDebug",
+        "url": "https://github.com/CodeAlanDebug"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "alanszheng",
+        "url": "https://linkedin.com/in/alanszheng"
+      },
+      {
+        "network": "X",
+        "username": "codealans",
+        "url": "https://x.com/codealans"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Replace with company name",
+      "position": "Senior Software Engineer",
+      "url": "https://example.com",
+      "startDate": "2022-01",
+      "endDate": "",
+      "summary": "Replace with a one-line summary of your role.",
+      "highlights": [
+        "Replace with a measurable achievement.",
+        "Replace with another achievement."
+      ]
+    },
+    {
+      "name": "Replace with previous company",
+      "position": "Software Engineer",
+      "url": "",
+      "startDate": "2019-06",
+      "endDate": "2021-12",
+      "summary": "Replace with a one-line summary of your role.",
+      "highlights": ["Replace with a measurable achievement."]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Replace with your university",
+      "area": "Computer Science",
+      "studyType": "BSc",
+      "startDate": "2015-09",
+      "endDate": "2019-06"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Cloud Infrastructure",
+      "keywords": ["Kubernetes", "Terraform", "AWS", "Cloudflare Workers"]
+    },
+    {
+      "name": "AI & Machine Learning",
+      "keywords": ["Python", "LLMs", "Content Pipelines"]
+    },
+    {
+      "name": "Web3 & Decentralized Systems",
+      "keywords": ["IPFS", "Solidity", "Smart Contracts"]
+    },
+    {
+      "name": "Full-Stack Development",
+      "keywords": ["TypeScript", "React", "Astro", "Go", "Rust"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "CloudScale Infrastructure",
+      "description": "Kubernetes-native platform for auto-scaling applications across multiple cloud providers, built for enterprise-grade reliability.",
+      "keywords": ["Kubernetes", "Terraform", "Go", "AWS"]
+    },
+    {
+      "name": "AI Content Pipeline",
+      "description": "Intelligent content processing system leveraging large language models for automated analysis, summarization, and classification at scale.",
+      "keywords": ["Python", "LLMs", "Docker", "Redis"]
+    },
+    {
+      "name": "Decentralized Storage Hub",
+      "description": "Web3 application for decentralized file storage and sharing using IPFS, with smart contract integration for access control.",
+      "keywords": ["IPFS", "Solidity", "React", "Web3.js"]
+    },
+    {
+      "name": "Real-time Analytics Engine",
+      "description": "High-performance data processing engine for real-time analytics with sub-second latency, handling millions of events per second.",
+      "keywords": ["Rust", "Apache Kafka", "ClickHouse", "WebSocket"]
+    }
+  ]
+}
