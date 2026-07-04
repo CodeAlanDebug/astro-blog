@@ -29,7 +29,11 @@ export const GET: APIRoute = async ({ url }) => {
       throw new Error(`GitHub OAuth error! status: ${response.status}`);
     }
 
-    const body = await response.json();
+    const body = (await response.json()) as {
+      access_token?: string;
+      error?: string;
+      error_description?: string;
+    };
 
     if (body.error || !body.access_token) {
       throw new Error(`GitHub OAuth error: ${body.error_description || body.error || "no access token"}`);
@@ -47,9 +51,9 @@ export const GET: APIRoute = async ({ url }) => {
       throw new Error(`GitHub user lookup failed! status: ${userResponse.status}`);
     }
 
-    const user = await userResponse.json();
+    const user = (await userResponse.json()) as { login?: string };
 
-    if (!ALLOWED_GITHUB_LOGINS.includes(user.login)) {
+    if (!user.login || !ALLOWED_GITHUB_LOGINS.includes(user.login)) {
       return new Response("Access denied: this CMS is restricted to the site owner.", {
         status: 403,
       });
