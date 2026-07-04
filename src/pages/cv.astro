@@ -4,7 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import cv from "../data/cv.json";
 
-const { basics, work, education, skills, projects } = cv;
+const { basics, work, volunteer, education, certificates, languages, skills, projects } = cv;
 
 function formatDate(value: string) {
   if (!value) return "Present";
@@ -36,6 +36,7 @@ function formatDate(value: string) {
           <h1>{basics.name}</h1>
           <p class="cv-label">{basics.label}</p>
           <ul class="cv-contacts">
+            <li>{basics.location.city}, {basics.location.countryCode}</li>
             <li><a href={`mailto:${basics.email}`}>{basics.email}</a></li>
             <li><a href={basics.url}>{basics.url.replace("https://", "")}</a></li>
             {
@@ -99,6 +100,30 @@ function formatDate(value: string) {
               </div>
             ))
           }
+        </section>
+
+        <section class="cv-section">
+          <h2>Certifications & Languages</h2>
+          <div class="cv-skills">
+            <div class="cv-skill">
+              <h3>Certifications</h3>
+              {certificates.map((cert) => <p>{cert.name} · {cert.issuer}</p>)}
+            </div>
+            <div class="cv-skill">
+              <h3>Languages</h3>
+              <p>{languages.map((l) => `${l.language} (${l.fluency})`).join(" · ")}</p>
+            </div>
+            <div class="cv-skill">
+              <h3>Leadership</h3>
+              {
+                volunteer.map((role) => (
+                  <p>
+                    {role.position}, {role.organization} — {role.summary}
+                  </p>
+                ))
+              }
+            </div>
+          </div>
         </section>
 
         <section class="cv-section">

@@ -1,13 +1,13 @@
 {
   "basics": {
     "name": "Alan Zheng",
-    "label": "Software Engineer",
-    "email": "hey@alanszheng.com",
+    "label": "Software Engineer · Technical Consultant",
+    "email": "alan@zheng.dev",
     "url": "https://alan.one",
-    "summary": "Software Engineer crafting the future with cloud infrastructure, AI, and decentralized technologies. I build scalable, innovative systems at the intersection of emerging technologies.",
+    "summary": "Software engineer based in Eindhoven, working as a Technical Consultant at Philips (via Enter B.V.). Specialises in cloud infrastructure and security across AWS, Azure, and Tencent Cloud, CI/CD, and agentic AI workflows. Comfortable owning the full pipeline from prototype to production in a regulated healthcare environment (PDLM/QMS), and bridging technology with business operations.",
     "location": {
-      "city": "Replace with your city",
-      "countryCode": ""
+      "city": "Eindhoven",
+      "countryCode": "NL"
     },
     "profiles": [
       {
@@ -29,52 +29,97 @@
   },
   "work": [
     {
-      "name": "Replace with company name",
-      "position": "Senior Software Engineer",
-      "url": "https://example.com",
-      "startDate": "2022-01",
+      "name": "Enter B.V. | Philips IP&S, AM&D",
+      "position": "Technical Consultant",
+      "url": "https://www.philips.com",
+      "startDate": "2025-09",
       "endDate": "",
-      "summary": "Replace with a one-line summary of your role.",
+      "summary": "Cloud security, platform modernisation, and stakeholder delivery in a regulated healthcare enterprise.",
       "highlights": [
-        "Replace with a measurable achievement.",
-        "Replace with another achievement."
+        "Designed and deployed the platform's first AWS WAF using IaC: DDoS mitigation, IP filtering, OWASP Top 10 defences, and automated rule updates.",
+        "Led the Vital Viewer project from concept to stakeholder demo, building front-end prototypes for key stakeholders.",
+        "Refactored the Health Analytics Engine and authored PDLM/QMS-compliant design documentation.",
+        "Led migration of a legacy field-study system to a modern platform and optimised CI/CD pipelines for stable releases.",
+        "Drove adoption of agentic development workflows (Claude, GitHub Copilot) among senior colleagues, cutting delivery time."
       ]
     },
     {
-      "name": "Replace with previous company",
-      "position": "Software Engineer",
+      "name": "Philips IP&S",
+      "position": "Software Engineer Intern",
+      "url": "https://www.philips.com",
+      "startDate": "2025-02",
+      "endDate": "2025-07",
+      "summary": "Medical-data availability tooling for BATDOK in low-connectivity environments.",
+      "highlights": [
+        "Enhanced BATDOK through IPFS integration, improving EMR availability in low-connectivity environments.",
+        "Developed an Android plugin using Kotlin–Go integration for peer-to-peer medical data sharing.",
+        "Conducted technical feasibility analysis and security assessment for military-grade systems."
+      ]
+    },
+    {
+      "name": "Jinan Minhao Trading Co., Ltd",
+      "position": "Solution Architect · Part-time (Remote)",
       "url": "",
-      "startDate": "2019-06",
-      "endDate": "2021-12",
-      "summary": "Replace with a one-line summary of your role.",
-      "highlights": ["Replace with a measurable achievement."]
+      "startDate": "2022-01",
+      "endDate": "",
+      "summary": "Enterprise digitalisation for a 100-employee trading business.",
+      "highlights": [
+        "Architected and implemented a WeCom (WeChat Work) platform, setting up OA workflows and integrating digital tools with business operations via platform APIs.",
+        "Drove business efficiency through digital solutions, optimising workflows and streamlining day-to-day operations."
+      ]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Proxy — Fontys ICT Study Association",
+      "position": "President",
+      "summary": "Coordinated cross-team initiatives, managed a 150k+ budget, and facilitated stakeholder communication."
     }
   ],
   "education": [
     {
-      "institution": "Replace with your university",
-      "area": "Computer Science",
-      "studyType": "BSc",
-      "startDate": "2015-09",
-      "endDate": "2019-06"
+      "institution": "Fontys University of Applied Sciences",
+      "area": "ICT Software Engineering & Cybersecurity",
+      "studyType": "Bachelor",
+      "startDate": "2020-09",
+      "endDate": "2025-07"
     }
+  ],
+  "certificates": [
+    {
+      "name": "WeCom Solution Architect — Associate",
+      "issuer": "Tencent"
+    },
+    {
+      "name": "AI Fluency: Framework & Foundations",
+      "issuer": "Anthropic"
+    }
+  ],
+  "languages": [
+    { "language": "Mandarin", "fluency": "Native" },
+    { "language": "English", "fluency": "Full professional proficiency" },
+    { "language": "Dutch", "fluency": "A2" }
   ],
   "skills": [
     {
-      "name": "Cloud Infrastructure",
-      "keywords": ["Kubernetes", "Terraform", "AWS", "Cloudflare Workers"]
+      "name": "Cloud & Security",
+      "keywords": ["AWS", "Azure", "Tencent Cloud", "CloudFormation / IaC", "AWS WAF", "Cloud Security"]
     },
     {
-      "name": "AI & Machine Learning",
-      "keywords": ["Python", "LLMs", "Content Pipelines"]
+      "name": "DevOps & Infrastructure",
+      "keywords": ["CI/CD Pipelines", "Docker", "Kubernetes", "Linux & Infrastructure"]
     },
     {
-      "name": "Web3 & Decentralized Systems",
-      "keywords": ["IPFS", "Solidity", "Smart Contracts"]
+      "name": "Software Engineering",
+      "keywords": ["Python (FastAPI)", "TypeScript", "React / Vue", "Java Spring Boot", "Kotlin", "SQL"]
     },
     {
-      "name": "Full-Stack Development",
-      "keywords": ["TypeScript", "React", "Astro", "Go", "Rust"]
+      "name": "AI & Agentic Tooling",
+      "keywords": ["Claude / MCP", "GitHub Copilot", "LLM & GenAI tools", "Agentic workflows"]
+    },
+    {
+      "name": "Practice",
+      "keywords": ["Project Management", "Requirements Engineering", "Stakeholder Management", "Technical Documentation"]
     }
   ],
   "projects": [
