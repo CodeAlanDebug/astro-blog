@@ -10,6 +10,12 @@ updates:
       prefix: "chore(deps)"
     labels:
       - "dependencies"
+    ignore:
+      # TypeScript 7 (native/Go port) is not supported by @astrojs/check yet
+      # (peer range: ^5.0.0 || ^6.0.0) — `astro check` crashes on TS 7.
+      # Remove this once Astro tooling supports TypeScript 7.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     groups:
       # Group all Astro-related packages together
       astro:
