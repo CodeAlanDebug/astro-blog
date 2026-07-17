@@ -43,7 +43,7 @@
     "deploy": "wrangler deploy",
     "dev": "astro dev",
     "preview": "astro build && wrangler dev",
-    "prepare": "husky"
+    "prepare": "node .husky/install.mjs"
   },
   "type": "module"
 }
