@@ -5,7 +5,7 @@ export const SITE_TITLE = "Alan Zheng";
 export const SITE_DESCRIPTION =
   "Cloud, platform, and automation engineer in Eindhoven. AWS infrastructure, CI/CD, and agentic-AI tooling for regulated healthcare software.";
 
-export const CONTACT_EMAIL = "alan@zheng.dev";
+export const CONTACT_EMAIL = "hey@alanszheng.com";
 
 export const SOCIAL_LINKS = [
   {

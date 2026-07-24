@@ -133,7 +133,7 @@ async function sendEmail(
   // Create RFC 5322 formatted email (MIME message)
   const emailContent = [
     `From: Portfolio Contact Form <noreply@alan.one>`,
-    `To: Alan Zheng <alan@zheng.dev>`,
+    `To: Alan Zheng <hey@alanszheng.com>`,
     `Reply-To: ${sanitizedEmail}`,
     `Subject: Portfolio Contact: ${sanitizedSubject}`,
     `Message-ID: ${messageId}`,
@@ -185,7 +185,7 @@ async function sendEmail(
     const { EmailMessage } = await import("cloudflare:email");
     const message = new EmailMessage(
       "noreply@alan.one",
-      "alan@zheng.dev",
+      "hey@alanszheng.com",
       emailContent
     );
 
