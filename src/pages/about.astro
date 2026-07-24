@@ -4,68 +4,64 @@ import Layout from "../layouts/BlogPost.astro";
 
 <Layout
   title="About Alan Zheng"
-  description="Software Engineer specializing in cloud infrastructure, AI, and decentralized technologies"
+  description="Cloud, platform, and automation engineer in Eindhoven. AWS infrastructure, CI/CD, and agentic-AI tooling for regulated healthcare software."
   pubDate={new Date("June 18 2025")}
   heroImage="/blog-placeholder-about.jpg"
 >
-  <h2>👨‍💻 Who I Am</h2>
+  <h2>Who I am</h2>
   <p>
-    I'm Alan Zheng, a passionate software engineer with a deep fascination for
-    emerging technologies that are reshaping our digital landscape. My journey
-    in tech has led me to specialize in areas where innovation meets practical
-    application: cloud infrastructure, artificial intelligence, Web3, and
-    decentralized storage systems.
+    I'm a software and platform engineer based in Eindhoven. I work where cloud
+    infrastructure meets software that has to be provably correct — most
+    recently as a Technical Consultant at Philips Image Processing &amp;
+    Solutions, through Enter B.V.
   </p>
 
-  <h2>🚀 What I Do</h2>
+  <h2>What I do</h2>
   <p>
-    My expertise spans across multiple domains of modern software engineering. I
-    architect and build scalable cloud infrastructure that can handle
-    enterprise-grade workloads, develop AI-powered applications that solve
-    real-world problems, and create decentralized systems that contribute to the
-    future of the internet.
-  </p>
-
-  <p>
-    <strong>Cloud Infrastructure:</strong> I design and implement robust, scalable
-    systems using Kubernetes, Terraform, and major cloud providers. My focus is on
-    creating infrastructure that's not just scalable, but also cost-effective and
-    maintainable.
+    <strong>Cloud and security.</strong> I designed and deployed the first AWS WAF
+    on a Philips platform, delivered as infrastructure-as-code: OWASP Top 10 rules,
+    IP filtering, DDoS mitigation, and automated rule updates, with CloudWatch logging
+    and alerting behind it.
   </p>
 
   <p>
-    <strong>Artificial Intelligence:</strong> I work with large language models,
-    machine learning pipelines, and AI-driven automation to create intelligent systems
-    that can process, analyze, and understand data at scale.
+    <strong>Delivery in a regulated environment.</strong> I refactored the Health
+    Analytics Engine and wrote the PDLM/QMS-compliant design documentation to go with
+    it. I set up the BDD environment used in its verification and validation process
+    and introduced it to the V&amp;V team. I led the migration of a legacy field-study
+    system to a modern platform and tightened its CI/CD pipelines for stable releases.
   </p>
 
   <p>
-    <strong>Web3 & IPFS:</strong> I'm actively involved in building the decentralized
-    web, working with IPFS for distributed storage, smart contracts, and blockchain
-    technologies that enable new paradigms of digital ownership and interaction.
-  </p>
-
-  <h2>💭 My Philosophy</h2>
-  <p>
-    I believe that the best technology is invisible – it works seamlessly,
-    scales effortlessly, and empowers users without getting in their way.
-    Whether I'm optimizing a Kubernetes cluster, training an AI model, or
-    deploying a smart contract, my goal is always to create solutions that are
-    both technically excellent and genuinely useful.
-  </p>
-
-  <h2>🌟 Beyond Code</h2>
-  <p>
-    When I'm not architecting systems or experimenting with the latest AI
-    models, I enjoy staying at the forefront of technological innovation. I'm
-    constantly learning about new developments in quantum computing, exploring
-    novel blockchain consensus mechanisms, and contributing to open-source
-    projects that push the boundaries of what's possible.
+    <strong>Automation and agentic AI.</strong> I build with Claude, MCP servers,
+    GitHub Copilot and n8n — and I've driven adoption of those workflows among senior
+    colleagues, not just used them myself. I write MCP servers, not just prompts.
   </p>
 
   <p>
-    I'm always excited to collaborate on challenging projects, discuss emerging
-    technologies, or help solve complex technical problems. Feel free to reach
-    out if you'd like to connect!
+    <strong>Systems that have to keep working offline.</strong> During my Philips
+    internship I extended BATDOK with IPFS-backed peer-to-peer sharing so medical
+    records stay available in low-connectivity field environments, via an Android
+    plugin bridging Kotlin and Go.
+  </p>
+
+  <h2>How I work</h2>
+  <p>
+    I care about the boring parts: documentation that survives an audit,
+    pipelines that don't need babysitting, and infrastructure someone else can
+    pick up without me. Most of my work has been in environments where "it works
+    on my machine" isn't an acceptable answer.
+  </p>
+
+  <h2>Beyond the stack</h2>
+  <p>
+    I'm bilingual English/Mandarin and have spent four years as a part-time
+    solution architect for a Chinese trading business — building out its WeCom
+    platform and integrating digital tools with day-to-day operations. If your
+    company works across the EU and China, I've done that translation in both
+    directions. I studied ICT Software Engineering &amp; Cybersecurity at Fontys
+    and served as President of Proxy, its ICT study association, where I built
+    the Microsoft 365 and Entra ID environment from scratch and managed a €150k+
+    budget.
   </p>
 </Layout>

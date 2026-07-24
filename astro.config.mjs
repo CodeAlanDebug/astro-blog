@@ -10,8 +10,9 @@ import icon from "astro-icon";
 import decapCmsOauth from "astro-decap-cms-oauth";
 
 // Astro accepts a single canonical `site` URL.
+// alan.one is the canonical domain; codealan.com 301s to it (see src/middleware.ts).
 // Use SITE_URL to switch between domains per environment.
-const siteUrl = process.env.SITE_URL ?? "https://codealan.com";
+const siteUrl = process.env.SITE_URL ?? "https://alan.one";
 
 // https://astro.build/config
 export default defineConfig({

@@ -27,18 +27,20 @@ import "../styles/contact.css";
           e.preventDefault();
 
           // Set user's local time before submission
-          const userLocalTimeField = document.getElementById("userLocalTime") as HTMLInputElement;
+          const userLocalTimeField = document.getElementById(
+            "userLocalTime"
+          ) as HTMLInputElement;
           if (userLocalTimeField) {
             const now = new Date();
             const options: Intl.DateTimeFormatOptions = {
-              weekday: 'short',
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit',
-              timeZoneName: 'short'
+              weekday: "short",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              timeZoneName: "short",
             };
             userLocalTimeField.value = now.toLocaleString(undefined, options);
           }
@@ -126,9 +128,10 @@ import "../styles/contact.css";
       <section class="hero">
         <h1>Let's Connect</h1>
         <p>
-          Ready to collaborate on innovative projects or discuss the latest in
-          tech? I'm always excited to connect with fellow developers,
-          entrepreneurs, and tech enthusiasts.
+          Cloud security, CI/CD in regulated environments, or where agentic
+          tooling actually holds up in production — happy to talk. Email or
+          LinkedIn are the fastest routes; I usually reply within two working
+          days.
         </p>
       </section>
 
@@ -186,28 +189,36 @@ import "../styles/contact.css";
             </div>
           </div>
 
+          <div class="contact-item">
+            <span class="contact-icon">📄</span>
+            <div class="contact-item-content">
+              <h3>CV</h3>
+              <p><a href="/cv">Read or print my CV</a></p>
+            </div>
+          </div>
+
           <div class="social-links">
             <h3>Areas of Expertise</h3>
             <div class="social-grid">
               <div class="social-link">
                 <span>☁️</span>
-                <span>Cloud Architecture</span>
+                <span>AWS & Cloud Security</span>
               </div>
               <div class="social-link">
-                <span>🌐</span>
-                <span>Full-Stack</span>
+                <span>⚙️</span>
+                <span>Infrastructure as Code</span>
               </div>
               <div class="social-link">
-                <span>🕸️</span>
-                <span>Web3 & IPFS</span>
-              </div>
-              <div class="social-link">
-                <span>🔒</span>
-                <span>Security</span>
+                <span>🔁</span>
+                <span>CI/CD</span>
               </div>
               <div class="social-link">
                 <span>🤖</span>
-                <span>Digital Transformation</span>
+                <span>MCP & Agentic AI</span>
+              </div>
+              <div class="social-link">
+                <span>🏥</span>
+                <span>Regulated Healthcare</span>
               </div>
             </div>
           </div>

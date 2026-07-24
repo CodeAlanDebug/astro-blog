@@ -2,7 +2,10 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = "Alan Zheng";
-export const SITE_DESCRIPTION = "Software Engineer crafting the future with cloud infrastructure, AI, and decentralized technologies.";
+export const SITE_DESCRIPTION =
+  "Cloud, platform, and automation engineer in Eindhoven. AWS infrastructure, CI/CD, and agentic-AI tooling for regulated healthcare software.";
+
+export const CONTACT_EMAIL = "hey@alanszheng.com";
 
 export const SOCIAL_LINKS = [
   {
