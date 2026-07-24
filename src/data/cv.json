@@ -2,9 +2,9 @@
   "basics": {
     "name": "Alan Zheng",
     "label": "Cloud & Platform Engineer · Technical Consultant",
-    "email": "hey@alanszheng.com",
-    "url": "https://alan.one",
-    "summary": "Software and platform engineer based in Eindhoven. Most recently Technical Consultant at Philips Image Processing & Solutions via Enter B.V., working on cloud security, platform modernisation and CI/CD in a regulated healthcare environment (PDLM/QMS). Builds with AWS, Azure and Tencent Cloud, Python, and agentic-AI tooling including MCP servers. Bilingual English/Mandarin, with cross-border EU–China experience.",
+    "email": "alan@zheng.dev",
+    "url": "https://alan.zheng.dev",
+    "summary": "Software and platform engineer based in Eindhoven. Most recently Technical Consultant at Philips, working on cloud security, platform modernisation and CI/CD in a regulated healthcare environment (PDLM/QMS). Builds with AWS, Azure and Tencent Cloud, Python, and agentic-AI tooling including MCP servers. Bilingual English/Mandarin, with cross-border EU–China experience.",
     "location": {
       "city": "Eindhoven",
       "countryCode": "NL"
@@ -19,18 +19,13 @@
         "network": "LinkedIn",
         "username": "alanszheng",
         "url": "https://linkedin.com/in/alanszheng"
-      },
-      {
-        "network": "X",
-        "username": "codealans",
-        "url": "https://x.com/codealans"
       }
     ]
   },
   "work": [
     {
-      "name": "Enter B.V. | Philips IP&S, AM&D",
-      "position": "Technical Consultant",
+      "name": "Philips",
+      "position": "Technical Consultant — IP&S, AM&D",
       "url": "https://www.philips.com",
       "startDate": "2025-09",
       "endDate": "2026-05",
@@ -46,8 +41,8 @@
       ]
     },
     {
-      "name": "Philips IP&S",
-      "position": "Software Engineer Intern",
+      "name": "Philips",
+      "position": "Software Engineer Intern — IP&S",
       "url": "https://www.philips.com",
       "startDate": "2025-02",
       "endDate": "2025-07",
@@ -163,7 +158,7 @@
     },
     {
       "name": "Offline-capable medical records for BATDOK",
-      "description": "Extended BATDOK so electronic medical records stay available where the network doesn't: IPFS-backed peer-to-peer sharing via an Android plugin bridging Kotlin and Go over JNI, with a feasibility and security assessment for military-grade deployment. Philips IP&S.",
+      "description": "Extended BATDOK so electronic medical records stay available where the network doesn't: IPFS-backed peer-to-peer sharing via an Android plugin bridging Kotlin and Go over JNI, with a feasibility and security assessment for military-grade deployment. Philips.",
       "keywords": [
         "Kotlin",
         "Go",

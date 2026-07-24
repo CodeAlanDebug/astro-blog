@@ -1,9 +1,14 @@
 import { defineMiddleware } from "astro:middleware";
 
-// alan.one is the single public identity. codealan.com points at the same
-// Worker, so consolidate it here rather than serving duplicate content.
-const CANONICAL_HOST = "alan.one";
-const REDIRECT_HOSTS = new Set(["codealan.com", "www.codealan.com"]);
+// alan.zheng.dev is the single public identity. The older domains point at the
+// same Worker, so consolidate them here rather than serving duplicate content.
+const CANONICAL_HOST = "alan.zheng.dev";
+const REDIRECT_HOSTS = new Set([
+  "alan.one",
+  "www.alan.one",
+  "codealan.com",
+  "www.codealan.com",
+]);
 
 export const onRequest = defineMiddleware((context, next) => {
   const url = new URL(context.request.url);

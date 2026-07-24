@@ -1,5 +1,5 @@
-import type { APIRoute } from 'astro';
-import { env } from 'cloudflare:workers';
+import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 
 // Ensure this route is server-rendered, not pre-rendered
 export const prerender = false;
@@ -20,7 +20,8 @@ interface ValidationResult {
 }
 
 // Improved email validation regex (RFC 5322 compliant)
-const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const emailRegex =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 // Rate limiting storage (in-memory, resets on worker restart)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -28,17 +29,17 @@ const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 // HTML entity escaping to prevent XSS attacks
 function escapeHtml(unsafe: string): string {
   return unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 // Sanitize email header to prevent email header injection
 function sanitizeEmailHeader(value: string): string {
   // Remove any newline characters that could be used for header injection
-  return value.replace(/[\r\n]/g, '').trim();
+  return value.replace(/[\r\n]/g, "").trim();
 }
 
 // Rate limiting: max 5 requests per IP per 15 minutes
@@ -62,69 +63,77 @@ function checkRateLimit(ip: string): boolean {
 // Simple honeypot and basic validation
 function validateFormData(data: ContactFormData): ValidationResult {
   const errors: string[] = [];
-  
+
   // Check for honeypot field (should be empty)
   if (data.website) {
-    errors.push('Spam detected');
+    errors.push("Spam detected");
   }
-  
+
   // Validate required fields
   if (!data.name || data.name.trim().length < 2) {
-    errors.push('Name must be at least 2 characters');
+    errors.push("Name must be at least 2 characters");
   }
-  
+
   if (!data.email || !emailRegex.test(data.email)) {
-    errors.push('Please enter a valid email address');
+    errors.push("Please enter a valid email address");
   }
-  
+
   if (!data.message || data.message.trim().length < 10) {
-    errors.push('Message must be at least 10 characters');
+    errors.push("Message must be at least 10 characters");
   }
-  
+
   // Basic length limits
   if (data.name && data.name.length > 100) {
-    errors.push('Name too long');
+    errors.push("Name too long");
   }
-  
+
   if (data.email && data.email.length > 254) {
-    errors.push('Email too long');
+    errors.push("Email too long");
   }
-  
+
   if (data.message && data.message.length > 5000) {
-    errors.push('Message too long');
+    errors.push("Message too long");
   }
 
   return {
     isValid: errors.length === 0,
-    errors
+    errors,
   };
 }
 
 // Function to send email using Cloudflare Email Routing
-async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail, clientIp: string) {
+async function sendEmail(
+  formData: ContactFormData,
+  sendEmailBinding: SendEmail,
+  clientIp: string
+) {
   // Escape all user inputs to prevent XSS
   const safeName = escapeHtml(formData.name);
   const safeEmail = escapeHtml(formData.email);
-  const safeSubject = escapeHtml(formData.subject || 'No subject');
-  const safeMessage = escapeHtml(formData.message).replace(/\n/g, '<br>');
-  const safeUserLocalTime = escapeHtml(formData.userLocalTime || 'Not provided');
+  const safeSubject = escapeHtml(formData.subject || "No subject");
+  const safeMessage = escapeHtml(formData.message).replace(/\n/g, "<br>");
+  const safeUserLocalTime = escapeHtml(
+    formData.userLocalTime || "Not provided"
+  );
   const safeClientIp = escapeHtml(clientIp);
 
   const plainTextMessage = formData.message;
   const boundary = `boundary-${Date.now()}`;
-  const userLocalTime = formData.userLocalTime || 'Not provided';
+  const userLocalTime = formData.userLocalTime || "Not provided";
 
   // Sanitize email headers to prevent injection attacks
   const sanitizedEmail = sanitizeEmailHeader(formData.email);
-  const sanitizedSubject = sanitizeEmailHeader(formData.subject || 'No subject');
+  const sanitizedSubject = sanitizeEmailHeader(
+    formData.subject || "No subject"
+  );
 
   // Generate a unique Message-ID using a cryptographically secure random UUID
-  const messageId = `<${(typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : require('crypto').randomUUID())}@alan.one>`;
+  const messageId = `<${typeof crypto !== "undefined" && typeof crypto.randomUUID === "function" ? crypto.randomUUID() : require("crypto").randomUUID()}@alan.one>`;
 
   // Create RFC 5322 formatted email (MIME message)
   const emailContent = [
     `From: Portfolio Contact Form <noreply@alan.one>`,
-    `To: Alan Zheng <hey@alanszheng.com>`,
+    `To: Alan Zheng <alan@zheng.dev>`,
     `Reply-To: ${sanitizedEmail}`,
     `Subject: Portfolio Contact: ${sanitizedSubject}`,
     `Message-ID: ${messageId}`,
@@ -140,7 +149,7 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail,
     ``,
     `Name: ${formData.name}`,
     `Email: ${formData.email}`,
-    `Subject: ${formData.subject || 'No subject'}`,
+    `Subject: ${formData.subject || "No subject"}`,
     ``,
     `Message:`,
     `${plainTextMessage}`,
@@ -168,136 +177,154 @@ async function sendEmail(formData: ContactFormData, sendEmailBinding: SendEmail,
     `</html>`,
     ``,
     `--${boundary}--`,
-  ].join('\r\n');
+  ].join("\r\n");
 
   try {
     // Use Cloudflare Email Routing Send API
     // EmailMessage expects: from (string), to (string), raw (string | ReadableStream)
-    const { EmailMessage } = await import('cloudflare:email');
+    const { EmailMessage } = await import("cloudflare:email");
     const message = new EmailMessage(
-      'noreply@alan.one',
-      'hey@alanszheng.com',
+      "noreply@alan.one",
+      "alan@zheng.dev",
       emailContent
     );
 
     await sendEmailBinding.send(message);
   } catch (error) {
-    console.error('Email send error:', error);
-    throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error("Email send error:", error);
+    throw new Error(
+      `Failed to send email: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
   }
 }
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   // Allowed origin for CORS (update this to your actual domain)
-  const allowedOrigin = 'https://alan.one';
+  const allowedOrigin = "https://alan.zheng.dev";
 
   try {
     // Get the email binding from Cloudflare environment
     const sendEmailBinding = env.SEND_EMAIL;
 
     if (!sendEmailBinding) {
-      console.error('SEND_EMAIL binding not found');
-      return new Response(JSON.stringify({
-        success: false,
-        message: 'Email service is not configured. Please contact the administrator.'
-      }), {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': allowedOrigin,
+      console.error("SEND_EMAIL binding not found");
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message:
+            "Email service is not configured. Please contact the administrator.",
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": allowedOrigin,
+          },
         }
-      });
+      );
     }
 
     // Rate limiting check
-    const clientIp = clientAddress || 'unknown';
+    const clientIp = clientAddress || "unknown";
     if (!checkRateLimit(clientIp)) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: 'Too many requests. Please try again later.'
-      }), {
-        status: 429,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': allowedOrigin,
-          'Retry-After': '900', // 15 minutes in seconds
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "Too many requests. Please try again later.",
+        }),
+        {
+          status: 429,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": allowedOrigin,
+            "Retry-After": "900", // 15 minutes in seconds
+          },
         }
-      });
+      );
     }
 
     // Parse form data
     const formData = await request.formData();
     const data: ContactFormData = {
-      name: formData.get('name')?.toString() || '',
-      email: formData.get('email')?.toString() || '',
-      subject: formData.get('subject')?.toString() || '',
-      message: formData.get('message')?.toString() || '',
-      website: formData.get('website')?.toString() || '', // Honeypot field
-      userLocalTime: formData.get('userLocalTime')?.toString() || '',
+      name: formData.get("name")?.toString() || "",
+      email: formData.get("email")?.toString() || "",
+      subject: formData.get("subject")?.toString() || "",
+      message: formData.get("message")?.toString() || "",
+      website: formData.get("website")?.toString() || "", // Honeypot field
+      userLocalTime: formData.get("userLocalTime")?.toString() || "",
     };
 
     // Validate form data
     const validation = validateFormData(data);
     if (!validation.isValid) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: 'Validation failed',
-        errors: validation.errors
-      }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': allowedOrigin,
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type',
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "Validation failed",
+          errors: validation.errors,
+        }),
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": allowedOrigin,
+            "Access-Control-Allow-Methods": "POST",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
         }
-      });
+      );
     }
 
     // Send email
     await sendEmail(data, sendEmailBinding, clientIp);
 
-    return new Response(JSON.stringify({
-      success: true,
-      message: 'Thank you for your message! I\'ll get back to you soon.'
-    }), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': allowedOrigin,
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: "Thank you for your message! I'll get back to you soon.",
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": allowedOrigin,
+          "Access-Control-Allow-Methods": "POST",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
       }
-    });
-
+    );
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error("Contact form error:", error);
 
-    return new Response(JSON.stringify({
-      success: false,
-      message: 'Sorry, there was an error sending your message. Please try again later.'
-    }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': allowedOrigin,
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
+    return new Response(
+      JSON.stringify({
+        success: false,
+        message:
+          "Sorry, there was an error sending your message. Please try again later.",
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": allowedOrigin,
+          "Access-Control-Allow-Methods": "POST",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
       }
-    });
+    );
   }
 };
 
 // Handle CORS preflight requests
 export const OPTIONS: APIRoute = async () => {
-  const allowedOrigin = 'https://alan.one';
+  const allowedOrigin = "https://alan.zheng.dev";
 
   return new Response(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': allowedOrigin,
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    }
+      "Access-Control-Allow-Origin": allowedOrigin,
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
   });
 };
