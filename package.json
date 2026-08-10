@@ -14,11 +14,11 @@
     "publish": true
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.1.7",
+    "@astrojs/cloudflare": "^14.2.0",
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.1.6",
+    "astro": "^7.2.0",
     "astro-decap-cms-oauth": "^0.5.2",
     "astro-icon": "^1.1.5"
   },
