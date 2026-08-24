@@ -14,13 +14,13 @@
     "publish": true
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.2.0",
-    "@astrojs/mdx": "^7.0.5",
+    "@astrojs/cloudflare": "^14.2.3",
+    "@astrojs/mdx": "^7.0.7",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.2.0",
+    "astro": "^7.2.4",
     "astro-decap-cms-oauth": "^0.5.2",
-    "astro-icon": "^1.1.5"
+    "astro-icon": "^1.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
