@@ -1,0 +1,111 @@
+name: Dependabot Doctor
+
+# When CI fails on a Dependabot branch, run a Claude Code agent that
+# diagnoses the failure and either fixes the branch, files a targeted
+# dependabot.yml ignore-rule PR, or reports findings on the PR.
+#
+# Requires the ANTHROPIC_API_KEY repository secret.
+
+on:
+  workflow_run:
+    workflows: ["Build & Validate"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: read
+
+concurrency:
+  group: dependabot-doctor-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Actor + same-repo guards: a fork branch named "dependabot/..." must not
+    # reach this job — it runs with a write token and repo secrets.
+    if: >
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.head_branch, 'dependabot/')
+    env:
+      HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+    steps:
+      - name: Checkout Dependabot branch
+        uses: actions/checkout@v7
+        with:
+          # Safe: the job-level if guarantees this is a dependabot-created
+          # branch in this repository, not a fork ref.
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Run Claude Code doctor
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            CI failed on a Dependabot branch. Diagnose and resolve it.
+
+            Failed run: ${{ github.event.workflow_run.html_url }}
+            Run id: ${{ github.event.workflow_run.id }}
+            Branch: available in the HEAD_BRANCH environment variable — always
+            reference it as "$HEAD_BRANCH" in shell commands, never retype it.
+
+            ## Steps
+
+            1. Find the open PR for this branch: `gh pr list --head "$HEAD_BRANCH" --json number,title`. If there is none, stop.
+            2. Read the failure: `gh run view ${{ github.event.workflow_run.id }} --log-failed`.
+            3. Identify the root cause, then pick exactly one path:
+
+            a) TRANSIENT (registry timeout, network flake, runner hiccup):
+               rerun with `gh run rerun ${{ github.event.workflow_run.id }} --failed`
+               and comment on the PR that you re-ran it and why.
+
+            b) FIXABLE ON THE BRANCH (lockfile drift, small code/type adjustments
+               required by the new dependency version):
+               - Make the fix, then verify locally: `npm ci && npm run check && npm run build`.
+                 The build needs env vars OAUTH_GITHUB_CLIENT_ID=ci-placeholder and
+                 OAUTH_GITHUB_CLIENT_SECRET=ci-placeholder.
+               - Commit to this branch (Conventional Commits format is enforced) and push.
+               - Pushes made with GITHUB_TOKEN do not retrigger CI, so afterwards run
+                 `gh workflow run "Build & Validate" --ref "$HEAD_BRANCH"`.
+                 If that dispatch fails, say so in your PR comment so a human can re-run checks.
+               - Comment on the PR describing the fix.
+
+            c) INCOMPATIBLE UPDATE (a bump the ecosystem cannot absorb yet — e.g. a
+               major version unsupported by a peer dependency or toolchain, like a
+               TypeScript major that @astrojs/check does not support):
+               - Create a branch off origin/main named claude/dependabot-ignore-<dep>.
+               - Add the narrowest possible ignore rule to .github/dependabot.yml
+                 (single dependency-name, usually update-types: ["version-update:semver-major"]),
+                 with a YAML comment explaining why and what unblocks removal.
+               - Commit (Conventional Commits, e.g. "ci: ..."), push, and open a PR
+                 with your diagnosis in the body. Do NOT merge it yourself.
+               - Comment on the Dependabot PR linking your fix PR. Dependabot
+                 auto-closes its PR once the ignore rule reaches main.
+
+            4. If the root cause stays unclear, comment your findings on the PR and stop.
+
+            ## Rules
+
+            - Never force-push. Never merge any PR. Never edit workflow files,
+              disable CI, or loosen checks to get green.
+            - Auto-merge is configured for minor/patch only; leave majors to a human.
+            - Prefer the smallest change that makes CI honest-green.
+          claude_args: |
+            --allowedTools "Bash(gh *),Bash(git *),Bash(npm *),Bash(node *),Bash(npx *),Bash(jq *),Read,Grep,Glob,Edit,Write"
+            --max-turns 60
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OAUTH_GITHUB_CLIENT_ID: ci-placeholder
+          OAUTH_GITHUB_CLIENT_SECRET: ci-placeholder
