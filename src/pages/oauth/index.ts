@@ -9,5 +9,7 @@ export const GET: APIRoute = ({ redirect }) => {
     scope: "repo,user",
   });
 
-  return redirect(`https://github.com/login/oauth/authorize?${params.toString()}`);
+  return redirect(
+    `https://github.com/login/oauth/authorize?${params.toString()}`
+  );
 };

@@ -1,5 +1,8 @@
 import type { APIRoute } from "astro";
-import { OAUTH_GITHUB_CLIENT_ID, OAUTH_GITHUB_CLIENT_SECRET } from "astro:env/server";
+import {
+  OAUTH_GITHUB_CLIENT_ID,
+  OAUTH_GITHUB_CLIENT_SECRET,
+} from "astro:env/server";
 
 export const prerender = false;
 
@@ -16,14 +19,17 @@ export const GET: APIRoute = async ({ url }) => {
   };
 
   try {
-    const response = await fetch("https://github.com/login/oauth/access_token", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "https://github.com/login/oauth/access_token",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`GitHub OAuth error! status: ${response.status}`);
@@ -36,7 +42,9 @@ export const GET: APIRoute = async ({ url }) => {
     };
 
     if (body.error || !body.access_token) {
-      throw new Error(`GitHub OAuth error: ${body.error_description || body.error || "no access token"}`);
+      throw new Error(
+        `GitHub OAuth error: ${body.error_description || body.error || "no access token"}`
+      );
     }
 
     const userResponse = await fetch("https://api.github.com/user", {
@@ -48,15 +56,20 @@ export const GET: APIRoute = async ({ url }) => {
     });
 
     if (!userResponse.ok) {
-      throw new Error(`GitHub user lookup failed! status: ${userResponse.status}`);
+      throw new Error(
+        `GitHub user lookup failed! status: ${userResponse.status}`
+      );
     }
 
     const user = (await userResponse.json()) as { login?: string };
 
     if (!user.login || !ALLOWED_GITHUB_LOGINS.includes(user.login)) {
-      return new Response("Access denied: this CMS is restricted to the site owner.", {
-        status: 403,
-      });
+      return new Response(
+        "Access denied: this CMS is restricted to the site owner.",
+        {
+          status: 403,
+        }
+      );
     }
 
     const content = {
