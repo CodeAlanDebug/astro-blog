@@ -18,125 +18,168 @@ import "../styles/home.css";
         <div class="hero-content">
           <h1>👋 Hey, I'm Alan Zheng</h1>
           <p class="subtitle">
-            Software Engineer crafting the future with cloud infrastructure, AI,
-            and decentralized technologies
+            Cloud, platform, and automation engineer. I build AWS
+            infrastructure, CI/CD, and agentic-AI tooling for software that has
+            to pass an audit — most recently at Philips in Eindhoven.
           </p>
           <div class="tech-stack">
-            <span class="tech-badge">☁️ Cloud Infrastructure</span>
-            <span class="tech-badge">🤖 AI/ML</span>
-            <span class="tech-badge">🌐 Web3</span>
-            <span class="tech-badge">📦 IPFS</span>
-            <span class="tech-badge">⚡ Full-Stack</span>
+            <span class="tech-badge">☁️ AWS &amp; Cloud Security</span>
+            <span class="tech-badge">⚙️ Infrastructure as Code</span>
+            <span class="tech-badge">🔁 CI/CD</span>
+            <span class="tech-badge">🐍 Python &amp; Automation</span>
+            <span class="tech-badge">🤖 MCP &amp; Agentic AI</span>
+            <span class="tech-badge">🏥 Regulated Healthcare (QMS/PDLM)</span>
           </div>
         </div>
       </section>
+
+      <div class="status-strip">
+        <span class="status-item">📍 Eindhoven, Netherlands</span>
+      </div>
 
       <section class="about-section">
         <div class="main-content">
           <h2>About Me</h2>
           <p>
-            I'm a passionate software engineer who thrives at the intersection
-            of emerging technologies. My expertise spans across cloud
-            infrastructure, artificial intelligence, and decentralized systems.
-            I believe in building scalable, innovative solutions that push the
-            boundaries of what's possible.
+            I work where cloud infrastructure meets software that has to be
+            provably correct. At Philips that meant the platform's first AWS WAF
+            delivered as infrastructure-as-code, CI/CD pipelines that hold up
+            through a release, and design documentation that survives a PDLM/QMS
+            audit.
           </p>
           <p>
-            When I'm not architecting distributed systems or experimenting with
-            the latest AI models, you'll find me exploring the Web3 ecosystem
-            and contributing to the decentralized future of the internet.
+            Alongside that I build with Claude, MCP servers, GitHub Copilot and
+            n8n — and I've driven adoption of those workflows among senior
+            colleagues, not just used them myself.
           </p>
         </div>
       </section>
 
       <section>
         <div class="main-content">
-          <h2 class="section-title">Featured Projects</h2>
+          <h2 class="section-title">Selected Work</h2>
           <div class="projects-grid">
             <div class="project-card">
               <h3>
-                <span class="project-icon">☁️</span>
-                CloudScale Infrastructure
+                <span class="project-icon">🧭</span>
+                IND Sponsor MCP
               </h3>
               <p>
-                A kubernetes-native platform for auto-scaling applications
-                across multiple cloud providers. Built with Terraform, Go, and
-                designed for enterprise-grade reliability.
+                An MCP server that exposes the Dutch IND recognised-sponsor
+                register to AI agents, so an assistant can answer "is this
+                employer a recognised sponsor?" against the live register
+                instead of guessing. TypeScript, published as a Model Context
+                Protocol server.
               </p>
               <div class="project-tags">
-                <span class="tag">Kubernetes</span>
-                <span class="tag">Terraform</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">MCP</span>
+                <span class="tag">Agentic AI</span>
+                <span class="tag">Public data</span>
+              </div>
+              <a
+                class="project-link"
+                href="https://github.com/CodeAlanDebug/hsm-mcp"
+                target="_blank"
+                rel="noopener noreferrer">View source on GitHub →</a
+              >
+            </div>
+
+            <div class="project-card">
+              <h3>
+                <span class="project-icon">📡</span>
+                Offline-capable medical records for BATDOK
+              </h3>
+              <p>
+                Extended BATDOK so electronic medical records stay available
+                where the network doesn't: IPFS-backed peer-to-peer sharing via
+                an Android plugin bridging Kotlin and Go over JNI, with a
+                feasibility and security assessment for military-grade
+                deployment. Built during my Philips internship.
+              </p>
+              <div class="project-tags">
+                <span class="tag">Kotlin</span>
                 <span class="tag">Go</span>
-                <span class="tag">AWS</span>
-              </div>
-            </div>
-
-            <div class="project-card">
-              <h3>
-                <span class="project-icon">🤖</span>
-                AI Content Pipeline
-              </h3>
-              <p>
-                An intelligent content processing system that leverages large
-                language models for automated analysis, summarization, and
-                classification at scale.
-              </p>
-              <div class="project-tags">
-                <span class="tag">Python</span>
-                <span class="tag">LLMs</span>
-                <span class="tag">Docker</span>
-                <span class="tag">Redis</span>
-              </div>
-            </div>
-
-            <div class="project-card">
-              <h3>
-                <span class="project-icon">🌐</span>
-                Decentralized Storage Hub
-              </h3>
-              <p>
-                A Web3 application for decentralized file storage and sharing
-                using IPFS, with smart contract integration for access control
-                and monetization.
-              </p>
-              <div class="project-tags">
+                <span class="tag">JNI</span>
                 <span class="tag">IPFS</span>
-                <span class="tag">Solidity</span>
-                <span class="tag">React</span>
-                <span class="tag">Web3.js</span>
+                <span class="tag">Medical data</span>
+                <span class="tag">Offline-first</span>
               </div>
+              <a
+                class="project-link"
+                href="https://github.com/CodeAlanDebug/gomobile-cal"
+                target="_blank"
+                rel="noopener noreferrer">Related public code: gomobile-cal →</a
+              >
+            </div>
+
+            <div class="project-card">
+              <h3>
+                <span class="project-icon">🛡️</span>
+                AWS WAF and observability for a Philips platform
+              </h3>
+              <p>
+                The platform's first WAF, delivered as infrastructure-as-code:
+                OWASP Top 10 rules, IP filtering, DDoS mitigation and automated
+                rule updates, with CloudWatch logging and alerting for the
+                security signal. Delivered at Philips.
+              </p>
+              <div class="project-tags">
+                <span class="tag">AWS</span>
+                <span class="tag">WAF</span>
+                <span class="tag">IaC</span>
+                <span class="tag">CloudWatch</span>
+                <span class="tag">Cloud security</span>
+              </div>
+              <p class="project-note">Enterprise work — no public code.</p>
             </div>
 
             <div class="project-card">
               <h3>
                 <span class="project-icon">⚡</span>
-                Real-time Analytics Engine
+                Self-hosted n8n on Fly.io
               </h3>
               <p>
-                High-performance data processing engine for real-time analytics
-                with sub-second latency, handling millions of events per second.
+                Deployment automation for a self-hosted n8n instance on Fly.io —
+                reproducible automation infrastructure you own, rather than a
+                SaaS tier.
               </p>
               <div class="project-tags">
-                <span class="tag">Rust</span>
-                <span class="tag">Apache Kafka</span>
-                <span class="tag">ClickHouse</span>
-                <span class="tag">WebSocket</span>
+                <span class="tag">Fly.io</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Shell</span>
+                <span class="tag">n8n</span>
+                <span class="tag">Automation</span>
               </div>
+              <a
+                class="project-link"
+                href="https://github.com/CodeAlanDebug/fly-n8n"
+                target="_blank"
+                rel="noopener noreferrer">View source on GitHub →</a
+              >
             </div>
           </div>
+          <p class="projects-footnote">
+            This site: Astro 7 on Cloudflare Workers, with a Sveltia CMS and
+            owner-only GitHub OAuth —
+            <a
+              href="https://github.com/CodeAlanDebug/astro-blog"
+              target="_blank"
+              rel="noopener noreferrer">source on GitHub</a
+            >.
+          </p>
         </div>
       </section>
 
       <section class="cta-section">
-        <h2>Let's Build Something Amazing</h2>
+        <h2>Get in touch</h2>
         <p>
-          Always excited to collaborate on innovative projects or discuss the
-          latest in tech. Whether it's cloud architecture, AI implementations,
-          or Web3 innovations.
+          Happy to talk about cloud security, CI/CD in regulated environments,
+          or where agentic tooling actually holds up in production.
         </p>
         <div class="cta-actions">
           <a href="/contact" class="cta-button primary">Get In Touch</a>
-          <a href="/about" class="cta-button">Learn More About Me</a>
+          <a href="/cv" class="cta-button">Read My CV</a>
         </div>
       </section>
     </main>

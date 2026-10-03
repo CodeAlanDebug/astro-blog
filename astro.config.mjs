@@ -10,8 +10,12 @@ import icon from "astro-icon";
 import decapCmsOauth from "astro-decap-cms-oauth";
 
 // Astro accepts a single canonical `site` URL.
+// alan.zheng.dev is the canonical domain. alan.one and codealan.com 301 to it
+// via Cloudflare Single Redirect rules on those zones, not in Worker code:
+// static assets are served before the Worker runs, so middleware never sees
+// page requests.
 // Use SITE_URL to switch between domains per environment.
-const siteUrl = process.env.SITE_URL ?? "https://codealan.com";
+const siteUrl = process.env.SITE_URL ?? "https://alan.zheng.dev";
 
 // https://astro.build/config
 export default defineConfig({

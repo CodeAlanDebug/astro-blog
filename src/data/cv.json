@@ -1,0 +1,185 @@
+{
+  "basics": {
+    "name": "Alan Zheng",
+    "label": "Cloud & Platform Engineer · Technical Consultant",
+    "email": "alan@zheng.dev",
+    "url": "https://alan.zheng.dev",
+    "summary": "Software and platform engineer based in Eindhoven. Most recently Technical Consultant at Philips, working on cloud security, platform modernisation and CI/CD in a regulated healthcare environment (PDLM/QMS). Builds with AWS, Azure and Tencent Cloud, Python, and agentic-AI tooling including MCP servers. Bilingual English/Mandarin, with cross-border EU–China experience.",
+    "location": {
+      "city": "Eindhoven",
+      "countryCode": "NL"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "CodeAlanDebug",
+        "url": "https://github.com/CodeAlanDebug"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "alanszheng",
+        "url": "https://linkedin.com/in/alanszheng"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Philips",
+      "position": "Technical Consultant — IP&S, AM&D",
+      "url": "https://www.philips.com",
+      "startDate": "2025-09",
+      "endDate": "2026-05",
+      "summary": "Cloud security, platform modernisation, and stakeholder delivery in a regulated healthcare enterprise.",
+      "highlights": [
+        "Designed and deployed the platform's first AWS WAF using IaC: DDoS mitigation, IP filtering, OWASP Top 10 defences, and automated rule updates.",
+        "Built AWS-native observability behind the WAF — CloudWatch logging, metrics and alerting for the security signal.",
+        "Led the Vital Viewer project from concept to stakeholder demo, building front-end prototypes for key stakeholders.",
+        "Refactored the Health Analytics Engine and authored PDLM/QMS-compliant design documentation.",
+        "Set up the BDD environment used in the Health Analytics Engine's verification and validation process, and introduced it to the V&V team.",
+        "Led migration of a legacy field-study system to a modern platform and optimised CI/CD pipelines for stable releases.",
+        "Drove adoption of agentic development workflows (Claude, MCP servers, GitHub Copilot) among senior colleagues, cutting delivery time."
+      ]
+    },
+    {
+      "name": "Philips",
+      "position": "Software Engineer Intern — IP&S",
+      "url": "https://www.philips.com",
+      "startDate": "2025-02",
+      "endDate": "2025-07",
+      "summary": "Medical-data availability tooling for BATDOK in low-connectivity environments.",
+      "highlights": [
+        "Enhanced BATDOK through IPFS integration, improving EMR availability in low-connectivity environments.",
+        "Developed an Android plugin using Kotlin–Go integration for peer-to-peer medical data sharing.",
+        "Conducted technical feasibility analysis and security assessment for military-grade systems."
+      ]
+    },
+    {
+      "name": "Jinan Minhao Trading Co., Ltd",
+      "position": "Solution Architect · Part-time (Remote)",
+      "url": "",
+      "startDate": "2022-01",
+      "endDate": "",
+      "summary": "Enterprise digitalisation for a 100-employee trading business.",
+      "highlights": [
+        "Architected and implemented a WeCom (WeChat Work) platform, setting up OA workflows and integrating digital tools with business operations via platform APIs.",
+        "Drove business efficiency through digital solutions, optimising workflows and streamlining day-to-day operations."
+      ]
+    }
+  ],
+  "volunteer": [
+    {
+      "organization": "Proxy — Fontys ICT Study Association",
+      "position": "President",
+      "summary": "Coordinated cross-team initiatives, managed a 150k+ budget, and facilitated stakeholder communication. Built the association's Microsoft 365 and Entra ID environment from scratch — identity and user management, email and collaboration, MFA and access policies."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Fontys University of Applied Sciences",
+      "area": "ICT Software Engineering & Cybersecurity",
+      "studyType": "Bachelor",
+      "startDate": "2020-09",
+      "endDate": "2025-07"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "WeCom Solution Architect — Associate",
+      "issuer": "Tencent"
+    },
+    {
+      "name": "AI Fluency: Framework & Foundations",
+      "issuer": "Anthropic"
+    }
+  ],
+  "languages": [
+    { "language": "Mandarin", "fluency": "Native" },
+    { "language": "English", "fluency": "Full professional proficiency" },
+    { "language": "Dutch", "fluency": "A2" }
+  ],
+  "skills": [
+    {
+      "name": "Cloud & Security",
+      "keywords": [
+        "AWS",
+        "Azure",
+        "Tencent Cloud",
+        "CloudFormation / IaC",
+        "AWS WAF",
+        "Cloud Security"
+      ]
+    },
+    {
+      "name": "DevOps & Infrastructure",
+      "keywords": [
+        "CI/CD Pipelines",
+        "Docker",
+        "Kubernetes",
+        "Linux & Infrastructure"
+      ]
+    },
+    {
+      "name": "Software Engineering",
+      "keywords": [
+        "Python (FastAPI)",
+        "TypeScript",
+        "React / Vue",
+        "Java Spring Boot",
+        "Kotlin",
+        "SQL"
+      ]
+    },
+    {
+      "name": "AI & Agentic Tooling",
+      "keywords": [
+        "Claude / MCP",
+        "GitHub Copilot",
+        "LLM & GenAI tools",
+        "Agentic workflows",
+        "n8n"
+      ]
+    },
+    {
+      "name": "Practice",
+      "keywords": [
+        "Project Management",
+        "Requirements Engineering",
+        "Stakeholder Management",
+        "Technical Documentation"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "IND Sponsor MCP",
+      "description": "An MCP server that exposes the Dutch IND recognised-sponsor register to AI agents, so an assistant can answer \"is this employer a recognised sponsor?\" against the live register instead of guessing.",
+      "keywords": ["TypeScript", "MCP", "Agentic AI", "Public data"],
+      "url": "https://github.com/CodeAlanDebug/hsm-mcp"
+    },
+    {
+      "name": "Offline-capable medical records for BATDOK",
+      "description": "Extended BATDOK so electronic medical records stay available where the network doesn't: IPFS-backed peer-to-peer sharing via an Android plugin bridging Kotlin and Go over JNI, with a feasibility and security assessment for military-grade deployment. Philips.",
+      "keywords": [
+        "Kotlin",
+        "Go",
+        "JNI",
+        "IPFS",
+        "Medical data",
+        "Offline-first"
+      ],
+      "url": "https://github.com/CodeAlanDebug/gomobile-cal"
+    },
+    {
+      "name": "AWS WAF and observability for a Philips platform",
+      "description": "The platform's first WAF, delivered as infrastructure-as-code: OWASP Top 10 rules, IP filtering, DDoS mitigation and automated rule updates, with CloudWatch logging and alerting for the security signal. Enterprise work — no public code.",
+      "keywords": ["AWS", "WAF", "IaC", "CloudWatch", "Cloud security"],
+      "url": ""
+    },
+    {
+      "name": "Self-hosted n8n on Fly.io",
+      "description": "Deployment automation for a self-hosted n8n instance on Fly.io — reproducible automation infrastructure you own, rather than a SaaS tier.",
+      "keywords": ["Fly.io", "Docker", "Shell", "n8n", "Automation"],
+      "url": "https://github.com/CodeAlanDebug/fly-n8n"
+    }
+  ]
+}
