@@ -23,13 +23,13 @@
     "astro-icon": "^1.2.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "@astrojs/check": "^0.9.12",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
-    "prettier-plugin-astro": "^1.1.1",
+    "prettier-plugin-astro": "^1.1.2",
     "typescript": "^6.0.3",
-    "wrangler": "^4.151.1"
+    "wrangler": "^4.152.0"
   },
   "engines": {
     "node": ">=18.17.1"
