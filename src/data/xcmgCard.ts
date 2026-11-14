@@ -8,6 +8,11 @@ export const card = {
   familyName: "Zheng",
   title: "International Project Coordinator",
   org: "XCMG",
+  // Where the logo on the card links to. xcmgglobal.com is XCMG's English
+  // international site (the one its overseas material points to).
+  // Alternatives: https://www.xcmg.com/en-eu/ (EU section of the group site),
+  // https://xcmg-europe.de/ (XCMG Europe GmbH). Empty = logo not linked.
+  orgUrl: "https://www.xcmgglobal.com/",
   // Shown under the company name with a location pin. Empty hides it.
   location: "Based in the Netherlands",
   email: "gge@xcmg.com",
