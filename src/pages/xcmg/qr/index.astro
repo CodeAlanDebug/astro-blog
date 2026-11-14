@@ -103,9 +103,14 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         box-sizing: border-box;
       }
 
+      /* iOS 26 Safari tints its bars from the body/html background *colour*
+         and ignores gradients, so set a solid blue under the gradient or
+         the bars render white. Overscroll off: no white bounce areas. */
       html,
       body {
         height: 100%;
+        background-color: var(--primary);
+        overscroll-behavior: none;
       }
 
       body {
@@ -114,7 +119,7 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         display: flex;
         flex-direction: column;
         color: #fff;
-        background:
+        background-image:
           radial-gradient(
             120% 70% at 50% 42%,
             rgb(255 255 255 / 0.08),
