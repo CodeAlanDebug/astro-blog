@@ -26,11 +26,13 @@ export const card = {
 
 export const fullName = `${card.givenName} ${card.familyName}`;
 
-// XCMG corporate blue. No public brand manual exists; this is the navy of
-// the XCMG logo's "X" as sampled by third-party logo analysis (~#003277).
-// Swap for the official value if Corporate Communications provides one.
+// XCMG corporate blue, taken from the fill of the official logo
+// (https://www.xcmgglobal.com/resources/web/img/logo.svg). White on it is
+// 6.2:1, so it is AA for text and buttons in light and dark mode.
 export const brand = {
-  navy: "#003277",
-  navyDeep: "#00224f",
-  blueBright: "#2f74d9",
+  primary: "#0062b0",
+  // Darker end of the header/background gradient.
+  primaryDeep: "#00477f",
+  // Lighter tint for focus rings and icons on dark backgrounds.
+  primaryLight: "#5aa2e6",
 } as const;

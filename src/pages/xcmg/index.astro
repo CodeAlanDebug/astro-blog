@@ -3,6 +3,7 @@
 // Standalone page: no blog header/footer/global CSS, system fonts only, so it
 // renders fast on a phone on trade-show Wi-Fi. Edit details in
 // src/data/xcmgCard.ts.
+import XcmgLogo from "../../components/XcmgLogo.astro";
 import { brand, card, fullName } from "../../data/xcmgCard";
 
 export const prerender = true;
@@ -28,7 +29,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
     <meta name="robots" content="noindex,nofollow" />
     <link rel="canonical" href={pageUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content={brand.navy} />
+    <meta name="theme-color" content={brand.primary} />
     <meta name="format-detection" content="telephone=no" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={`${fullName} — ${card.org}`} />
@@ -41,7 +42,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
     <div class="layout">
       <main class="card">
         <header class="hero">
-          <span class="wordmark">{card.org}</span>
+          <XcmgLogo class="logo" height={26} />
         </header>
 
         <section class="identity">
@@ -181,9 +182,9 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
     <style
       is:global
       define:vars={{
-        navy: brand.navy,
-        navyDeep: brand.navyDeep,
-        blueBright: brand.blueBright,
+        primary: brand.primary,
+        primaryDeep: brand.primaryDeep,
+        primaryLight: brand.primaryLight,
       }}
     >
       :root {
@@ -193,10 +194,10 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         --muted: #556070;
         --line: #e3e7ee;
         --row: #f3f5f9;
-        --icon-ink: var(--navy);
-        --btn: var(--navy);
+        --icon-ink: var(--primary);
+        --btn: var(--primary);
         --on-btn: #ffffff;
-        --ring: var(--blueBright);
+        --ring: var(--primaryLight);
         --shadow: 0 1px 2px rgb(0 20 60 / 0.06), 0 12px 32px rgb(0 20 60 / 0.1);
         color-scheme: light dark;
       }
@@ -209,9 +210,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
           --muted: #9aa5b8;
           --line: #232a38;
           --row: #18202e;
-          --icon-ink: #8fb4ee;
-          /* Corporate navy disappears on a dark page; lift it for buttons. */
-          --btn: var(--blueBright);
+          --icon-ink: var(--primaryLight);
           --shadow: 0 0 0 1px #1e2533;
         }
       }
@@ -266,7 +265,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       .hero {
         position: relative;
         height: 132px;
-        background: linear-gradient(135deg, var(--navy), var(--navyDeep));
+        background: linear-gradient(135deg, var(--primary), var(--primaryDeep));
         padding: calc(18px + env(safe-area-inset-top))
           max(20px, env(safe-area-inset-right)) 0
           max(20px, env(safe-area-inset-left));
@@ -290,12 +289,10 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         -webkit-mask-image: linear-gradient(to left, #000 30%, transparent);
       }
 
-      .wordmark {
+      .logo {
         position: relative;
+        display: block;
         color: #fff;
-        font-weight: 800;
-        font-size: 20px;
-        letter-spacing: 0.18em;
       }
 
       .identity {
@@ -311,7 +308,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         display: grid;
         place-items: center;
         background: #fff;
-        color: var(--navy);
+        color: var(--primary);
         font-weight: 800;
         font-size: 30px;
         letter-spacing: 0.02em;
@@ -394,7 +391,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       .btn-primary {
         background: var(--btn);
         color: var(--on-btn);
-        box-shadow: 0 6px 16px rgb(0 50 119 / 0.25);
+        box-shadow: 0 6px 16px rgb(0 98 176 / 0.28);
       }
 
       .btn-primary:hover {

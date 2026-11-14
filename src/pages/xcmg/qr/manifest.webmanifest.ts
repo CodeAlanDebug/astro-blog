@@ -14,8 +14,8 @@ export const GET: APIRoute = () =>
       scope: `${card.path}qr/`,
       display: "standalone",
       orientation: "portrait",
-      background_color: brand.navy,
-      theme_color: brand.navy,
+      background_color: brand.primary,
+      theme_color: brand.primary,
       icons: [
         {
           src: `${card.path}qr/apple-touch-icon.png`,

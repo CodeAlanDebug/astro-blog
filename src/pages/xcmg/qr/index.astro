@@ -2,8 +2,9 @@
 // Full-screen QR code for holding up a phone so others can scan it.
 // Tuned for 6.7–6.9" iPhones (14 Plus, 15 Pro Max, 18 Pro Max: 428–440pt
 // wide). Add to Home Screen to launch it full-screen like an app.
-// `?wallpaper` hides the chrome and leaves room for the Lock Screen clock;
+// `?wallpaper` hides the "Open card" link and leaves room for the Lock Screen clock;
 // it is used to render the Lock Screen PNGs.
+import XcmgLogo from "../../../components/XcmgLogo.astro";
 import { brand, card, fullName } from "../../../data/xcmgCard";
 import { qrSvg } from "../../../lib/qr";
 
@@ -23,7 +24,7 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
     />
     <title>{`${fullName} · QR`}</title>
     <meta name="robots" content="noindex,nofollow" />
-    <meta name="theme-color" content={brand.navy} />
+    <meta name="theme-color" content={brand.primary} />
     <link rel="manifest" href={`${card.path}qr/manifest.webmanifest`} />
     <link rel="apple-touch-icon" href={`${card.path}qr/apple-touch-icon.png`} />
     <meta name="apple-mobile-web-app-title" content="XCMG QR" />
@@ -40,10 +41,6 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
     </script>
   </head>
   <body>
-    <header class="top">
-      <span class="wordmark">{card.org}</span>
-    </header>
-
     <main class="stage">
       <figure class="tile">
         <div
@@ -62,9 +59,8 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
 
       <div class="who">
         <p class="name">{fullName}</p>
-        <p class="role">
-          {card.title} · {card.org}
-        </p>
+        <p class="role">{card.title}</p>
+        <XcmgLogo class="logo" height={24} />
         <p class="url">{displayUrl}</p>
       </div>
     </main>
@@ -99,7 +95,7 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
 
     <style
       is:global
-      define:vars={{ navy: brand.navy, navyDeep: brand.navyDeep }}
+      define:vars={{ primary: brand.primary, primaryDeep: brand.primaryDeep }}
     >
       *,
       *::before,
@@ -124,7 +120,7 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
             rgb(255 255 255 / 0.08),
             transparent 60%
           ),
-          linear-gradient(160deg, var(--navy), var(--navyDeep));
+          linear-gradient(160deg, var(--primary), var(--primaryDeep));
         font-family:
           system-ui,
           -apple-system,
@@ -142,16 +138,6 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         touch-action: manipulation;
       }
 
-      .top {
-        padding: calc(14px + env(safe-area-inset-top)) 24px 0;
-      }
-
-      .wordmark {
-        font-weight: 800;
-        font-size: 18px;
-        letter-spacing: 0.2em;
-      }
-
       .stage {
         flex: 1;
         display: flex;
@@ -159,7 +145,7 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         align-items: center;
         justify-content: center;
         gap: 28px;
-        padding: 16px 24px;
+        padding: calc(16px + env(safe-area-inset-top)) 24px 16px;
       }
 
       .tile {
@@ -185,7 +171,7 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         align-items: center;
         gap: 2px;
         margin-top: 2px;
-        color: var(--navy);
+        color: var(--primary);
         text-align: center;
       }
 
@@ -219,8 +205,14 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         color: rgb(255 255 255 / 0.85);
       }
 
+      .who .logo {
+        display: block;
+        margin: 18px auto 0;
+        color: #fff;
+      }
+
       .url {
-        margin-top: 10px !important;
+        margin-top: 12px !important;
         font-size: 15px;
         letter-spacing: 0.04em;
         color: rgb(255 255 255 / 0.65);
@@ -243,7 +235,6 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
 
       /* Lock Screen wallpaper: no chrome, and the code sits low enough to
          clear the clock (top ~30%) and the flashlight/camera buttons. */
-      .wallpaper .top,
       .wallpaper .bottom {
         visibility: hidden;
       }
