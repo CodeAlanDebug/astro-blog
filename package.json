@@ -24,6 +24,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@emnapi/core": "^1.11.3",
+    "@emnapi/runtime": "^1.11.3",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
