@@ -103,14 +103,23 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         box-sizing: border-box;
       }
 
-      /* iOS 26 Safari tints its bars from the body/html background *colour*
-         and ignores gradients, so set a solid blue under the gradient or
-         the bars render white. Overscroll off: no white bounce areas. */
+      /* Two iOS quirks shape these backgrounds:
+         1. iOS 26 Safari tints its bars from the <body> background *colour*
+            (then <html>), never from gradients: body keeps solid blue.
+         2. In a Home Screen app with the black-translucent status bar, iOS
+            makes the page one status-bar height shorter than the screen;
+            the strip below shows the <html> colour. The gradient runs top
+            to bottom and ends in primaryDeep, and <html> is primaryDeep, so
+            that strip continues the gradient seamlessly instead of showing
+            a lighter band. */
       html,
       body {
         height: 100%;
-        background-color: var(--primary);
         overscroll-behavior: none;
+      }
+
+      html {
+        background-color: var(--primaryDeep);
       }
 
       body {
@@ -119,13 +128,14 @@ const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
         display: flex;
         flex-direction: column;
         color: #fff;
+        background-color: var(--primary);
         background-image:
           radial-gradient(
             120% 70% at 50% 42%,
             rgb(255 255 255 / 0.08),
             transparent 60%
           ),
-          linear-gradient(160deg, var(--primary), var(--primaryDeep));
+          linear-gradient(180deg, var(--primary), var(--primaryDeep));
         font-family:
           system-ui,
           -apple-system,
