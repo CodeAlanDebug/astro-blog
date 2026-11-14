@@ -26,3 +26,6 @@ pnpm-debug.log*
 # wrangler files
 .wrangler
 .dev.vars
+
+# Claude Code agent worktrees (local git worktrees, never committed)
+.claude/worktrees/
