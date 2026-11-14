@@ -69,6 +69,15 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
             <h1>{fullName}</h1>
             <p class="role">{card.title}</p>
             <p class="org">{card.org}</p>
+            {card.location && (
+              <p class="location">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {card.location}
+              </p>
+            )}
           </section>
 
           <div class="primary">
@@ -489,6 +498,26 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         color: var(--muted);
         font-weight: 600;
         letter-spacing: 0.04em;
+      }
+
+      .location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 10px 0 0;
+        font-size: 15px;
+        color: var(--muted);
+      }
+
+      .location svg {
+        flex: none;
+        width: 17px;
+        height: 17px;
+        fill: none;
+        stroke: var(--icon-ink);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
       }
 
       /* ---------- Buttons ---------- */

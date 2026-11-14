@@ -8,6 +8,8 @@ export const card = {
   familyName: "Zheng",
   title: "International Project Coordinator",
   org: "XCMG",
+  // Shown under the company name with a location pin. Empty hides it.
+  location: "Based in the Netherlands",
   email: "gge@xcmg.com",
   // E.164, no spaces (used for tel: and the vCard).
   // Leave empty to hide the phone row and omit TEL from the vCard.
