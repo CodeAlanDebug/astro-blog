@@ -22,7 +22,8 @@ export default defineConfig({
   site: siteUrl,
   integrations: [
     mdx(),
-    sitemap(),
+    // The XCMG business card is reached by QR code only; keep it out of search.
+    sitemap({ filter: (page) => !page.includes("/xcmg/") }),
     icon(),
     // Blog editor at /admin (Sveltia CMS UI). OAuth routes are implemented
     // in src/pages/oauth/ instead of the integration's own, so sign-in can
