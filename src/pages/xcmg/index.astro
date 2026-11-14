@@ -379,16 +379,20 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         box-sizing: border-box;
       }
 
-      /* Phones and tablets (default): the page canvas is XCMG blue. iOS 26
-         Safari tints its top bar from the body/html background colour (it
-         ignores theme-color for normal tabs), so a light canvas showed up as
-         a white band above the header. The card itself is full-bleed and at
-         least one full screen tall, so the blue never shows anywhere else;
-         rubber-band overscroll is off so it can't peek out at the bottom. */
+      /* Phones and tablets (default).
+         - <body> is XCMG blue: iOS 26 Safari tints its top bar from the body
+           background colour (it ignores theme-color for normal tabs), so a
+           light body showed up as a white band above the header.
+         - <html> is the card colour: in a Home Screen app with the
+           black-translucent status bar, iOS makes the page one status-bar
+           height shorter than the screen and the strip below shows the
+           <html> colour. Matching the card makes that strip invisible.
+         The card covers the body completely, so the blue body is only ever
+         seen by Safari's tint sampler. Overscroll is off: no bounce areas. */
       html {
         -webkit-text-size-adjust: 100%;
         text-size-adjust: 100%;
-        background-color: var(--primary);
+        background-color: var(--card);
         overscroll-behavior-y: none;
       }
 
