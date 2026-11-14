@@ -55,158 +55,164 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
   <body>
     <div class="layout">
       <main class="card">
-        <header class="hero">
-          <div class="wrap">
-            <XcmgLogo class="logo" height={26} />
-          </div>
-        </header>
-
-        <div class="content wrap">
-          <section class="identity">
-            <div class="avatar" aria-hidden="true">
-              {initials}
+        <div class="fit">
+          <header class="hero">
+            <div class="wrap">
+              <XcmgLogo class="logo" height={26} />
             </div>
-            <h1>{fullName}</h1>
-            <p class="role">{card.title}</p>
-            <p class="org">{card.org}</p>
-            {card.location && (
-              <p class="location">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                {card.location}
+          </header>
+
+          <div class="content wrap">
+            <section class="identity">
+              <div class="avatar" aria-hidden="true">
+                {initials}
+              </div>
+              <h1>{fullName}</h1>
+              <p class="role">{card.title}</p>
+              <p class="meta">
+                <span class="org">{card.org}</span>
+                {card.location && (
+                  <span class="location">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    {card.location}
+                  </span>
+                )}
               </p>
-            )}
-          </section>
+            </section>
 
-          <div class="primary">
-            <a class="btn btn-primary" href={card.vcfPath}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M19 8v6M22 11h-6"></path>
-              </svg>
-              Save contact
-            </a>
-            <p class="hint" id="wechat-hint" hidden>
-              WeChat can't save contacts. Tap <strong>···</strong> (top right) →
-              <strong>Open in Browser</strong>.<br />
-              <span lang="zh-CN">
-                微信内无法保存联系人，请点击右上角 ··· →「在浏览器打开」。
-              </span>
-            </p>
-          </div>
+            <div class="primary">
+              <a class="btn btn-primary" href={card.vcfPath}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M19 8v6M22 11h-6"></path>
+                </svg>
+                Save contact
+              </a>
+              <p class="hint" id="wechat-hint" hidden>
+                WeChat can't save contacts. Tap <strong>···</strong> (top right)
+                →<strong>Open in Browser</strong>.<br />
+                <span lang="zh-CN">
+                  微信内无法保存联系人，请点击右上角 ··· →「在浏览器打开」。
+                </span>
+              </p>
+            </div>
 
-          <ul class="rows">
-            {card.phone && (
+            <ul class="rows">
+              {card.phone && (
+                <li>
+                  <a href={`tel:${card.phone}`}>
+                    <span class="icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                      </svg>
+                    </span>
+                    <span class="text">
+                      <span class="label">Mobile</span>
+                      <span class="value">
+                        {card.phoneDisplay || card.phone}
+                      </span>
+                    </span>
+                    <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </a>
+                </li>
+              )}
+              {card.whatsapp && (
+                <li>
+                  <a href={`https://wa.me/${card.whatsapp}`} rel="noopener">
+                    <span class="icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                      </svg>
+                    </span>
+                    <span class="text">
+                      <span class="label">WhatsApp</span>
+                      <span class="value">Chat on WhatsApp</span>
+                    </span>
+                    <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </a>
+                </li>
+              )}
+              {card.wechatQr && (
+                <li>
+                  <button type="button" id="wechat-open" aria-haspopup="dialog">
+                    <span class="icon">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z" />
+                        <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" />
+                      </svg>
+                    </span>
+                    <span class="text">
+                      <span class="label">WeChat 微信</span>
+                      <span class="value">Show QR code to add me</span>
+                    </span>
+                    <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </button>
+                </li>
+              )}
               <li>
-                <a href={`tel:${card.phone}`}>
+                <a href={`mailto:${card.email}`}>
                   <span class="icon">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                      <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                     </svg>
                   </span>
                   <span class="text">
-                    <span class="label">Mobile</span>
-                    <span class="value">{card.phoneDisplay || card.phone}</span>
+                    <span class="label">Email</span>
+                    <span class="value">{card.email}</span>
                   </span>
                   <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="m9 18 6-6-6-6" />
+                    <path d="m9 18 6-6-6-6"></path>
                   </svg>
                 </a>
               </li>
-            )}
-            {card.whatsapp && (
               <li>
-                <a href={`https://wa.me/${card.whatsapp}`} rel="noopener">
+                <a href={card.linkedin} rel="noopener">
                   <span class="icon">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="filled">
+                      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"></path>
                     </svg>
                   </span>
                   <span class="text">
-                    <span class="label">WhatsApp</span>
-                    <span class="value">Chat on WhatsApp</span>
+                    <span class="label">LinkedIn</span>
+                    <span class="value">{linkedinHandle}</span>
                   </span>
                   <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="m9 18 6-6-6-6" />
+                    <path d="m9 18 6-6-6-6"></path>
                   </svg>
                 </a>
               </li>
-            )}
-            {card.wechatQr && (
-              <li>
-                <button type="button" id="wechat-open" aria-haspopup="dialog">
-                  <span class="icon">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z" />
-                      <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" />
-                    </svg>
-                  </span>
-                  <span class="text">
-                    <span class="label">WeChat 微信</span>
-                    <span class="value">Show QR code to add me</span>
-                  </span>
-                  <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </button>
-              </li>
-            )}
-            <li>
-              <a href={`mailto:${card.email}`}>
-                <span class="icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                  </svg>
-                </span>
-                <span class="text">
-                  <span class="label">Email</span>
-                  <span class="value">{card.email}</span>
-                </span>
-                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </a>
-            </li>
-            <li>
-              <a href={card.linkedin} rel="noopener">
-                <span class="icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" class="filled">
-                    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"></path>
-                  </svg>
-                </span>
-                <span class="text">
-                  <span class="label">LinkedIn</span>
-                  <span class="value">{linkedinHandle}</span>
-                </span>
-                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </a>
-            </li>
-          </ul>
+            </ul>
 
-          <div class="secondary">
-            <button class="btn btn-ghost" id="share" type="button">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                <path d="m16 6-4-4-4 4"></path>
-                <path d="M12 2v13"></path>
-              </svg>
-              <span id="share-label">Share this card</span>
-            </button>
-            <a class="btn btn-ghost" href={`${card.path}qr/`}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-                <path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"></path>
-              </svg>
-              Show QR code
-            </a>
+            <div class="secondary">
+              <button class="btn btn-ghost" id="share" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                  <path d="m16 6-4-4-4 4"></path>
+                  <path d="M12 2v13"></path>
+                </svg>
+                <span id="share-label">Share</span>
+              </button>
+              <a class="btn btn-ghost" href={`${card.path}qr/`}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                  <path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"></path>
+                </svg>
+                QR code
+              </a>
+            </div>
           </div>
         </div>
       </main>
@@ -307,7 +313,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
             navigator.clipboard.writeText(url).then(function () {
               label.textContent = "Link copied";
               setTimeout(function () {
-                label.textContent = "Share this card";
+                label.textContent = "Share";
               }, 2000);
             });
           }
@@ -336,6 +342,22 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         --ring: var(--primaryLight);
         --shadow: 0 1px 2px rgb(0 20 60 / 0.06), 0 12px 32px rgb(0 20 60 / 0.1);
         color-scheme: light dark;
+
+        /* Adaptive sizing: everything scales with the visible screen height
+           (svh = height with Safari's toolbars showing), so the whole card
+           fits one screen on any phone. Each value is clamped: never below
+           a comfortable/tappable minimum, never above a sensible maximum. */
+        --s-gap: clamp(8px, 2.2svh, 20px);
+        --s-hero: clamp(64px, 13svh, 124px);
+        --s-avatar: clamp(52px, 10svh, 88px);
+        --s-name: clamp(21px, 3.1svh, 28px);
+        --s-role: clamp(14px, 2.1svh, 17px);
+        --s-meta: clamp(13px, 1.8svh, 15px);
+        --s-btn: clamp(44px, 7svh, 58px);
+        --s-row: clamp(44px, 8.4svh, 76px);
+        --s-icon: clamp(32px, 4.8svh, 42px);
+        --s-label: clamp(11px, 1.55svh, 13px);
+        --s-value: clamp(15px, 2.1svh, 17px);
       }
 
       @media (prefers-color-scheme: dark) {
@@ -403,7 +425,14 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         min-height: 100vh;
         min-height: 100lvh;
         background: var(--card);
-        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        min-height: 100svh;
+        padding-bottom: calc(var(--s-gap) + env(safe-area-inset-bottom));
       }
 
       /* Centred content column: full width on phones, a readable column on
@@ -420,9 +449,9 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         position: relative;
         /* Header grows with the status-bar inset so the logo always sits
            the same distance below the clock (Home Screen app mode). */
-        height: calc(132px + env(safe-area-inset-top));
+        height: calc(var(--s-hero) + env(safe-area-inset-top));
         background: linear-gradient(135deg, var(--primary), var(--primaryDeep));
-        padding: calc(18px + env(safe-area-inset-top)) 20px 0;
+        padding: calc(var(--s-gap) + 6px + env(safe-area-inset-top)) 20px 0;
         overflow: hidden;
       }
 
@@ -432,7 +461,10 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
       .content {
         position: relative;
-        margin-top: -44px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-top: calc(var(--s-avatar) / -2);
       }
 
       /* Subtle diagonal line texture, fading in from the right. */
@@ -463,56 +495,61 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .avatar {
-        width: 88px;
-        height: 88px;
+        width: var(--s-avatar);
+        height: var(--s-avatar);
         border-radius: 50%;
         display: grid;
         place-items: center;
         background: #fff;
         color: var(--primary);
         font-weight: 800;
-        font-size: 30px;
+        font-size: calc(var(--s-avatar) * 0.35);
         letter-spacing: 0.02em;
-        border: 4px solid var(--card);
+        border: 3px solid var(--card);
         box-shadow: 0 2px 10px rgb(0 20 60 / 0.15);
-        margin-bottom: 14px;
+        margin-bottom: calc(var(--s-gap) * 0.7);
       }
 
       h1 {
         margin: 0;
-        font-size: 28px;
+        font-size: var(--s-name);
         line-height: 1.15;
         font-weight: 750;
         letter-spacing: -0.01em;
       }
 
       .role {
-        margin: 6px 0 0;
-        font-size: 17px;
+        margin: 3px 0 0;
+        font-size: var(--s-role);
         color: var(--ink);
       }
 
-      .org {
-        margin: 2px 0 0;
-        font-size: 15px;
+      /* Company and location share one line to keep the card one screen tall. */
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 2px 12px;
+        margin: 5px 0 0;
+        font-size: var(--s-meta);
         color: var(--muted);
-        font-weight: 600;
+      }
+
+      .org {
+        font-weight: 650;
         letter-spacing: 0.04em;
       }
 
       .location {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 6px;
-        margin: 10px 0 0;
-        font-size: 15px;
-        color: var(--muted);
+        gap: 4px;
       }
 
       .location svg {
         flex: none;
-        width: 17px;
-        height: 17px;
+        width: 15px;
+        height: 15px;
         fill: none;
         stroke: var(--icon-ink);
         stroke-width: 2;
@@ -527,11 +564,14 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .primary {
-        margin-top: 24px;
+        margin-top: var(--s-gap);
       }
 
+      /* Share / QR sit at the bottom; any spare height collects above them. */
       .secondary {
+        margin-top: auto;
         display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
       }
 
@@ -541,10 +581,10 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         justify-content: center;
         gap: 10px;
         width: 100%;
-        min-height: 54px;
+        min-height: var(--s-btn);
         border-radius: 14px;
         font: inherit;
-        font-size: 17px;
+        font-size: var(--s-value);
         font-weight: 650;
         text-decoration: none;
         cursor: pointer;
@@ -614,7 +654,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       /* ---------- Contact rows ---------- */
       .rows {
         list-style: none;
-        margin: 20px 0;
+        margin: calc(var(--s-gap) * 0.6) 0 var(--s-gap);
         padding: 0 8px;
       }
 
@@ -630,10 +670,11 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       .rows button {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
         width: 100%;
-        min-height: 68px;
-        padding: 10px 4px;
+        /* never below 44px: Apple's minimum touch target */
+        min-height: var(--s-row);
+        padding: 2px 4px;
         color: inherit;
         text-decoration: none;
         text-align: left;
@@ -652,8 +693,8 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
       .icon {
         flex: none;
-        width: 42px;
-        height: 42px;
+        width: var(--s-icon);
+        height: var(--s-icon);
         border-radius: 12px;
         display: grid;
         place-items: center;
@@ -662,8 +703,8 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .icon svg {
-        width: 20px;
-        height: 20px;
+        width: calc(var(--s-icon) * 0.47);
+        height: calc(var(--s-icon) * 0.47);
         fill: none;
         stroke: currentColor;
         stroke-width: 2;
@@ -684,12 +725,12 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .label {
-        font-size: 13px;
+        font-size: var(--s-label);
         color: var(--muted);
       }
 
       .value {
-        font-size: 17px;
+        font-size: var(--s-value);
         overflow-wrap: anywhere;
       }
 
@@ -791,6 +832,20 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       /* ---------- Desktop (mouse/trackpad, wide): floating card ----------
          Touch devices of any width keep the edge-to-edge layout above. */
       @media (min-width: 720px) and (hover: hover) and (pointer: fine) {
+        :root {
+          --s-gap: 18px;
+          --s-hero: 120px;
+          --s-avatar: 84px;
+          --s-name: 28px;
+          --s-role: 17px;
+          --s-meta: 15px;
+          --s-btn: 52px;
+          --s-row: 60px;
+          --s-icon: 40px;
+          --s-label: 13px;
+          --s-value: 16px;
+        }
+
         html,
         body {
           background-color: var(--bg);
@@ -810,12 +865,16 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
           border-radius: 24px;
           overflow: hidden;
           box-shadow: var(--shadow);
-          padding-bottom: 24px;
         }
 
         .hero {
-          height: 132px;
+          height: var(--s-hero);
           padding-top: 20px;
+        }
+
+        .fit {
+          min-height: 0;
+          padding-bottom: 24px;
         }
       }
 
