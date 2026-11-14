@@ -1,0 +1,262 @@
+---
+// Full-screen QR code for holding up a phone so others can scan it.
+// Tuned for 6.7–6.9" iPhones (14 Plus, 15 Pro Max, 18 Pro Max: 428–440pt
+// wide). Add to Home Screen to launch it full-screen like an app.
+// `?wallpaper` hides the chrome and leaves room for the Lock Screen clock;
+// it is used to render the Lock Screen PNGs.
+import { brand, card, fullName } from "../../../data/xcmgCard";
+import { qrSvg } from "../../../lib/qr";
+
+export const prerender = true;
+
+const svg = await qrSvg(card.qrUrl);
+const displayUrl = card.qrUrl.replace(/^https?:\/\//, "");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>{`${fullName} · QR`}</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content={brand.navy} />
+    <link rel="manifest" href={`${card.path}qr/manifest.webmanifest`} />
+    <link rel="apple-touch-icon" href={`${card.path}qr/apple-touch-icon.png`} />
+    <meta name="apple-mobile-web-app-title" content="XCMG QR" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      if (/[?&]wallpaper\b/.test(location.search)) {
+        document.documentElement.classList.add("wallpaper");
+      }
+    </script>
+  </head>
+  <body>
+    <header class="top">
+      <span class="wordmark">{card.org}</span>
+    </header>
+
+    <main class="stage">
+      <figure class="tile">
+        <div
+          class="qr"
+          set:html={svg}
+          role="img"
+          aria-label={`QR code for ${displayUrl}`}
+        />
+        <figcaption>
+          <span class="cta">Scan to save my contact</span>
+          <span class="cta-zh" lang="zh-CN">
+            扫码保存联系方式
+          </span>
+        </figcaption>
+      </figure>
+
+      <div class="who">
+        <p class="name">{fullName}</p>
+        <p class="role">
+          {card.title} · {card.org}
+        </p>
+        <p class="url">{displayUrl}</p>
+      </div>
+    </main>
+
+    <nav class="bottom">
+      <a href={card.path}>Open card</a>
+    </nav>
+
+    <script is:inline>
+      // Keep the screen on while the code is being shown (Safari 16.4+;
+      // in Home Screen apps from iOS 18.4). Re-acquired when the page
+      // becomes visible again, since the OS drops the lock on tab switch.
+      (function () {
+        if (!("wakeLock" in navigator)) return;
+        var lock = null;
+        function acquire() {
+          if (document.visibilityState !== "visible") return;
+          navigator.wakeLock
+            .request("screen")
+            .then(function (l) {
+              lock = l;
+            })
+            .catch(function () {});
+        }
+        document.addEventListener("visibilitychange", acquire);
+        document.addEventListener("click", function () {
+          if (!lock || lock.released) acquire();
+        });
+        acquire();
+      })();
+    </script>
+
+    <style
+      is:global
+      define:vars={{ navy: brand.navy, navyDeep: brand.navyDeep }}
+    >
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        background:
+          radial-gradient(
+            120% 70% at 50% 42%,
+            rgb(255 255 255 / 0.08),
+            transparent 60%
+          ),
+          linear-gradient(160deg, var(--navy), var(--navyDeep));
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          "PingFang SC",
+          "Microsoft YaHei",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+        /* No accidental zoom/selection while someone is scanning. */
+        -webkit-user-select: none;
+        user-select: none;
+        touch-action: manipulation;
+      }
+
+      .top {
+        padding: calc(14px + env(safe-area-inset-top)) 24px 0;
+      }
+
+      .wordmark {
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: 0.2em;
+      }
+
+      .stage {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        padding: 16px 24px;
+      }
+
+      .tile {
+        margin: 0;
+        /* Big modules scan from further away and survive screen glare:
+           ~84% of the narrowest of these iPhones, capped by height. */
+        width: min(84vw, 380px, 52dvh);
+        background: #fff;
+        border-radius: 32px;
+        padding: 14px 14px 20px;
+        box-shadow: 0 20px 60px rgb(0 0 0 / 0.35);
+      }
+
+      .qr svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      figcaption {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        margin-top: 2px;
+        color: var(--navy);
+        text-align: center;
+      }
+
+      .cta {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .cta-zh {
+        font-size: 15px;
+        color: #556070;
+      }
+
+      .who {
+        text-align: center;
+      }
+
+      .who p {
+        margin: 0;
+      }
+
+      .name {
+        font-size: 28px;
+        font-weight: 750;
+        letter-spacing: -0.01em;
+      }
+
+      .role {
+        margin-top: 4px !important;
+        font-size: 16px;
+        color: rgb(255 255 255 / 0.85);
+      }
+
+      .url {
+        margin-top: 10px !important;
+        font-size: 15px;
+        letter-spacing: 0.04em;
+        color: rgb(255 255 255 / 0.65);
+      }
+
+      .bottom {
+        display: flex;
+        justify-content: center;
+        padding: 0 24px calc(16px + env(safe-area-inset-bottom));
+      }
+
+      .bottom a {
+        color: rgb(255 255 255 / 0.75);
+        text-decoration: none;
+        font-size: 15px;
+        padding: 12px 20px;
+        border-radius: 999px;
+        border: 1px solid rgb(255 255 255 / 0.2);
+      }
+
+      /* Lock Screen wallpaper: no chrome, and the code sits low enough to
+         clear the clock (top ~30%) and the flashlight/camera buttons. */
+      .wallpaper .top,
+      .wallpaper .bottom {
+        visibility: hidden;
+      }
+
+      .wallpaper .stage {
+        justify-content: flex-start;
+        padding-top: 31dvh;
+        gap: 22px;
+      }
+
+      .wallpaper .tile {
+        width: min(74vw, 340px);
+      }
+    </style>
+  </body>
+</html>

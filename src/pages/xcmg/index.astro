@@ -1,9 +1,9 @@
 ---
-// Digital business card — opened by scanning the QR code on the printed card.
+// Digital business card — opened by scanning the QR code (xcmg.alan.one).
 // Standalone page: no blog header/footer/global CSS, system fonts only, so it
 // renders fast on a phone on trade-show Wi-Fi. Edit details in
 // src/data/xcmgCard.ts.
-import { card, fullName } from "../../data/xcmgCard";
+import { brand, card, fullName } from "../../data/xcmgCard";
 
 export const prerender = true;
 
@@ -28,16 +28,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
     <meta name="robots" content="noindex,nofollow" />
     <link rel="canonical" href={pageUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta
-      name="theme-color"
-      content="#1c1e23"
-      media="(prefers-color-scheme: light)"
-    />
-    <meta
-      name="theme-color"
-      content="#0b0c0f"
-      media="(prefers-color-scheme: dark)"
-    />
+    <meta name="theme-color" content={brand.navy} />
     <meta name="format-detection" content="telephone=no" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={`${fullName} — ${card.org}`} />
@@ -143,6 +134,15 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
             </svg>
             <span id="share-label">Share this card</span>
           </button>
+          <a class="btn btn-ghost" href={`${card.path}qr/`}>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+              <path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"></path>
+            </svg>
+            Show QR code
+          </a>
         </div>
       </main>
     </div>
@@ -178,33 +178,41 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       })();
     </script>
 
-    <style is:global>
+    <style
+      is:global
+      define:vars={{
+        navy: brand.navy,
+        navyDeep: brand.navyDeep,
+        blueBright: brand.blueBright,
+      }}
+    >
       :root {
-        --bg: #eeede9;
+        --bg: #eef1f6;
         --card: #ffffff;
-        --ink: #16181d;
-        --muted: #5b616d;
-        --line: #e7e5df;
-        --row-hover: #f6f5f2;
-        --hero: #1c1e23;
-        --brand: #f5b400;
-        --on-brand: #16181d;
-        --ring: #1c1e23;
-        --shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 12px 32px rgb(0 0 0 / 0.08);
+        --ink: #121826;
+        --muted: #556070;
+        --line: #e3e7ee;
+        --row: #f3f5f9;
+        --icon-ink: var(--navy);
+        --btn: var(--navy);
+        --on-btn: #ffffff;
+        --ring: var(--blueBright);
+        --shadow: 0 1px 2px rgb(0 20 60 / 0.06), 0 12px 32px rgb(0 20 60 / 0.1);
         color-scheme: light dark;
       }
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #0b0c0f;
-          --card: #16181d;
-          --ink: #f2f2f3;
-          --muted: #a4a9b4;
-          --line: #262931;
-          --row-hover: #1d2026;
-          --hero: #0f1013;
-          --ring: #f5b400;
-          --shadow: 0 0 0 1px #22252c;
+          --bg: #080b12;
+          --card: #111621;
+          --ink: #eef1f6;
+          --muted: #9aa5b8;
+          --line: #232a38;
+          --row: #18202e;
+          --icon-ink: #8fb4ee;
+          /* Corporate navy disappears on a dark page; lift it for buttons. */
+          --btn: var(--blueBright);
+          --shadow: 0 0 0 1px #1e2533;
         }
       }
 
@@ -257,36 +265,26 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
       .hero {
         position: relative;
-        height: 128px;
-        background: var(--hero);
+        height: 132px;
+        background: linear-gradient(135deg, var(--navy), var(--navyDeep));
         padding: calc(18px + env(safe-area-inset-top))
           max(20px, env(safe-area-inset-right)) 0
           max(20px, env(safe-area-inset-left));
         overflow: hidden;
       }
 
-      /* Machinery-yellow accent stripes along the bottom edge. */
-      .hero::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 6px;
-        background: var(--brand);
-      }
-
+      /* Subtle diagonal line texture, fading in from the right. */
       .hero::before {
         content: "";
         position: absolute;
         right: -40px;
         top: -10px;
-        width: 220px;
-        height: 160px;
+        width: 240px;
+        height: 170px;
         background: repeating-linear-gradient(
           -45deg,
-          rgb(245 180 0 / 0.14) 0 10px,
-          transparent 10px 22px
+          rgb(255 255 255 / 0.07) 0 2px,
+          transparent 2px 14px
         );
         mask-image: linear-gradient(to left, #000 30%, transparent);
         -webkit-mask-image: linear-gradient(to left, #000 30%, transparent);
@@ -312,12 +310,13 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         border-radius: 50%;
         display: grid;
         place-items: center;
-        background: var(--brand);
-        color: var(--on-brand);
+        background: #fff;
+        color: var(--navy);
         font-weight: 800;
         font-size: 30px;
         letter-spacing: 0.02em;
         border: 4px solid var(--card);
+        box-shadow: 0 2px 10px rgb(0 20 60 / 0.15);
         margin-bottom: 14px;
       }
 
@@ -351,6 +350,11 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
       .primary {
         margin-top: 24px;
+      }
+
+      .secondary {
+        display: grid;
+        gap: 10px;
       }
 
       .btn {
@@ -388,12 +392,13 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .btn-primary {
-        background: var(--brand);
-        color: var(--on-brand);
+        background: var(--btn);
+        color: var(--on-btn);
+        box-shadow: 0 6px 16px rgb(0 50 119 / 0.25);
       }
 
       .btn-primary:hover {
-        filter: brightness(1.04);
+        filter: brightness(1.12);
       }
 
       .btn-ghost {
@@ -403,7 +408,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .btn-ghost:hover {
-        background: var(--row-hover);
+        background: var(--row);
       }
 
       .btn:focus-visible,
@@ -416,7 +421,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         margin: 12px 4px 0;
         padding: 12px 14px;
         border-radius: 12px;
-        background: var(--row-hover);
+        background: var(--row);
         color: var(--muted);
         font-size: 14px;
         line-height: 1.5;
@@ -433,13 +438,12 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         padding: 0 8px;
       }
 
-      .rows li + li {
-        border-top: 1px solid var(--line);
+      .rows li {
         margin: 0 12px;
       }
 
-      .rows li:first-child {
-        margin: 0 12px;
+      .rows li + li {
+        border-top: 1px solid var(--line);
       }
 
       .rows a {
@@ -454,7 +458,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .rows a:hover {
-        background: var(--row-hover);
+        background: var(--row);
       }
 
       .icon {
@@ -464,8 +468,8 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         border-radius: 12px;
         display: grid;
         place-items: center;
-        background: var(--row-hover);
-        color: var(--ink);
+        background: var(--row);
+        color: var(--icon-ink);
       }
 
       .icon svg {
