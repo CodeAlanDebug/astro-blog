@@ -58,7 +58,19 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         <div class="fit">
           <header class="hero">
             <div class="wrap">
-              <XcmgLogo class="logo" height={26} />
+              {card.orgUrl ? (
+                <a
+                  class="logo-link"
+                  href={card.orgUrl}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`${card.org} website (opens in a new tab)`}
+                >
+                  <XcmgLogo class="logo" height={26} />
+                </a>
+              ) : (
+                <XcmgLogo class="logo" height={26} />
+              )}
             </div>
           </header>
 
@@ -492,6 +504,22 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         position: relative;
         display: block;
         color: #fff;
+      }
+
+      /* Logo links to the XCMG site. Padding grows the tap area to the 44px
+         minimum; the matching negative margin keeps the logo where it was. */
+      .logo-link {
+        position: relative;
+        display: inline-block;
+        padding: 9px 10px;
+        margin: -9px -10px;
+        border-radius: 10px;
+        -webkit-tap-highlight-color: rgb(255 255 255 / 0.15);
+      }
+
+      .logo-link:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 0;
       }
 
       .identity {
