@@ -8,12 +8,22 @@ export const card = {
   familyName: "Zheng",
   title: "International Project Coordinator",
   org: "XCMG",
+  // Shown under the company name with a location pin. Empty hides it.
+  location: "Based in the Netherlands",
   email: "gge@xcmg.com",
   // E.164, no spaces (used for tel: and the vCard).
   // Leave empty to hide the phone row and omit TEL from the vCard.
   phone: "+31616921520",
   // How the number is shown on the page.
   phoneDisplay: "+31 6 1692 1520",
+  // WhatsApp number for wa.me links: digits only, country code, no "+".
+  // Leave empty to hide the WhatsApp row.
+  whatsapp: "31616921520",
+  // Personal WeChat "My QR Code" image (EXIF stripped; image data untouched).
+  // Adds as a friend without exposing the phone number. Re-export it if the
+  // code is ever reset in WeChat (Me → QR Code → ··· → Reset QR Code).
+  // Leave empty to hide the WeChat row.
+  wechatQr: "/xcmg/wechat-qr.jpg",
   linkedin: "https://www.linkedin.com/in/alanszheng",
   path: "/xcmg/",
   vcfPath: "/xcmg/alan-zheng.vcf",

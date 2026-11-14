@@ -31,6 +31,20 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content={brand.primary} />
     <meta name="format-detection" content="telephone=no" />
+    <!-- Home Screen web app: full-screen, blue header runs under the clock
+         (black-translucent) instead of iOS's default white status bar. -->
+    <link rel="manifest" href={`${card.path}manifest.webmanifest`} />
+    <link rel="apple-touch-icon" href={`${card.path}apple-touch-icon.png`} />
+    <meta
+      name="apple-mobile-web-app-title"
+      content={`${card.givenName} · ${card.org}`}
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={`${fullName} — ${card.org}`} />
     <meta property="og:description" content={description} />
@@ -42,118 +56,240 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
     <div class="layout">
       <main class="card">
         <header class="hero">
-          <XcmgLogo class="logo" height={26} />
+          <div class="wrap">
+            <XcmgLogo class="logo" height={26} />
+          </div>
         </header>
 
-        <section class="identity">
-          <div class="avatar" aria-hidden="true">
-            {initials}
+        <div class="content wrap">
+          <section class="identity">
+            <div class="avatar" aria-hidden="true">
+              {initials}
+            </div>
+            <h1>{fullName}</h1>
+            <p class="role">{card.title}</p>
+            <p class="org">{card.org}</p>
+            {card.location && (
+              <p class="location">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {card.location}
+              </p>
+            )}
+          </section>
+
+          <div class="primary">
+            <a class="btn btn-primary" href={card.vcfPath}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M19 8v6M22 11h-6"></path>
+              </svg>
+              Save contact
+            </a>
+            <p class="hint" id="wechat-hint" hidden>
+              WeChat can't save contacts. Tap <strong>···</strong> (top right) →
+              <strong>Open in Browser</strong>.<br />
+              <span lang="zh-CN">
+                微信内无法保存联系人，请点击右上角 ··· →「在浏览器打开」。
+              </span>
+            </p>
           </div>
-          <h1>{fullName}</h1>
-          <p class="role">{card.title}</p>
-          <p class="org">{card.org}</p>
-        </section>
 
-        <div class="primary">
-          <a class="btn btn-primary" href={card.vcfPath}>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M19 8v6M22 11h-6"></path>
-            </svg>
-            Save contact
-          </a>
-          <p class="hint" id="wechat-hint" hidden>
-            WeChat can't save contacts. Tap <strong>···</strong> (top right) →
-            <strong>Open in Browser</strong>.<br />
-            <span lang="zh-CN">
-              微信内无法保存联系人，请点击右上角 ··· →「在浏览器打开」。
-            </span>
-          </p>
-        </div>
-
-        <ul class="rows">
-          {card.phone && (
+          <ul class="rows">
+            {card.phone && (
+              <li>
+                <a href={`tel:${card.phone}`}>
+                  <span class="icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </span>
+                  <span class="text">
+                    <span class="label">Mobile</span>
+                    <span class="value">{card.phoneDisplay || card.phone}</span>
+                  </span>
+                  <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </a>
+              </li>
+            )}
+            {card.whatsapp && (
+              <li>
+                <a href={`https://wa.me/${card.whatsapp}`} rel="noopener">
+                  <span class="icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    </svg>
+                  </span>
+                  <span class="text">
+                    <span class="label">WhatsApp</span>
+                    <span class="value">Chat on WhatsApp</span>
+                  </span>
+                  <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </a>
+              </li>
+            )}
+            {card.wechatQr && (
+              <li>
+                <button type="button" id="wechat-open" aria-haspopup="dialog">
+                  <span class="icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z" />
+                      <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" />
+                    </svg>
+                  </span>
+                  <span class="text">
+                    <span class="label">WeChat 微信</span>
+                    <span class="value">Show QR code to add me</span>
+                  </span>
+                  <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                </button>
+              </li>
+            )}
             <li>
-              <a href={`tel:${card.phone}`}>
+              <a href={`mailto:${card.email}`}>
                 <span class="icon">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                   </svg>
                 </span>
                 <span class="text">
-                  <span class="label">Mobile</span>
-                  <span class="value">{card.phoneDisplay || card.phone}</span>
+                  <span class="label">Email</span>
+                  <span class="value">{card.email}</span>
                 </span>
                 <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m9 18 6-6-6-6" />
+                  <path d="m9 18 6-6-6-6"></path>
                 </svg>
               </a>
             </li>
-          )}
-          <li>
-            <a href={`mailto:${card.email}`}>
-              <span class="icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            <li>
+              <a href={card.linkedin} rel="noopener">
+                <span class="icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" class="filled">
+                    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"></path>
+                  </svg>
+                </span>
+                <span class="text">
+                  <span class="label">LinkedIn</span>
+                  <span class="value">{linkedinHandle}</span>
+                </span>
+                <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6"></path>
                 </svg>
-              </span>
-              <span class="text">
-                <span class="label">Email</span>
-                <span class="value">{card.email}</span>
-              </span>
-              <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="m9 18 6-6-6-6"></path>
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a href={card.linkedin} rel="noopener">
-              <span class="icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true" class="filled">
-                  <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"></path>
-                </svg>
-              </span>
-              <span class="text">
-                <span class="label">LinkedIn</span>
-                <span class="value">{linkedinHandle}</span>
-              </span>
-              <svg class="chev" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="m9 18 6-6-6-6"></path>
-              </svg>
-            </a>
-          </li>
-        </ul>
+              </a>
+            </li>
+          </ul>
 
-        <div class="secondary">
-          <button class="btn btn-ghost" id="share" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-              <path d="m16 6-4-4-4 4"></path>
-              <path d="M12 2v13"></path>
-            </svg>
-            <span id="share-label">Share this card</span>
-          </button>
-          <a class="btn btn-ghost" href={`${card.path}qr/`}>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-              <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-              <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-              <path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"></path>
-            </svg>
-            Show QR code
-          </a>
+          <div class="secondary">
+            <button class="btn btn-ghost" id="share" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                <path d="m16 6-4-4-4 4"></path>
+                <path d="M12 2v13"></path>
+              </svg>
+              <span id="share-label">Share this card</span>
+            </button>
+            <a class="btn btn-ghost" href={`${card.path}qr/`}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                <path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"></path>
+              </svg>
+              Show QR code
+            </a>
+          </div>
         </div>
       </main>
     </div>
+
+    {card.wechatQr && (
+      <dialog id="wechat" aria-labelledby="wechat-title">
+        <div class="sheet">
+          <div class="sheet-head">
+            <h2 id="wechat-title">
+              WeChat <span lang="zh-CN">微信</span>
+            </h2>
+            <button
+              type="button"
+              class="close"
+              id="wechat-close"
+              aria-label="Close"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 6 6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <img
+            src={card.wechatQr}
+            width="888"
+            height="1191"
+            loading="lazy"
+            decoding="async"
+            alt={`WeChat QR code to add ${fullName} as a friend`}
+          />
+          <p class="how" data-env="wechat" hidden>
+            Long-press the code → <strong>Scan QR Code in Image</strong>.
+            <br />
+            <span lang="zh-CN">长按二维码 →「识别图中的二维码」。</span>
+          </p>
+          <p class="how" data-env="browser">
+            Long-press the code → <strong>Save to Photos</strong>, then in
+            WeChat: <strong>Scan → Album</strong>.
+            <br />
+            <span lang="zh-CN">
+              长按保存图片，再打开微信「扫一扫」→ 从相册选取。
+            </span>
+          </p>
+        </div>
+      </dialog>
+    )}
 
     <script is:inline>
       (function () {
         // WeChat's in-app browser blocks .vcf downloads — tell the visitor
         // how to escape to the system browser. Common for China contacts.
-        if (/MicroMessenger/i.test(navigator.userAgent)) {
+        var inWeChat = /MicroMessenger/i.test(navigator.userAgent);
+        if (inWeChat) {
           document.getElementById("wechat-hint").hidden = false;
+        }
+
+        // WeChat QR sheet. Inside WeChat's own browser a long-press on the
+        // image offers "Scan QR Code in Image", which adds the friend
+        // directly; elsewhere the visitor saves it and scans from the album.
+        var dlg = document.getElementById("wechat");
+        var openBtn = document.getElementById("wechat-open");
+        if (dlg && openBtn && typeof dlg.showModal === "function") {
+          dlg.querySelectorAll(".how").forEach(function (p) {
+            p.hidden = (p.getAttribute("data-env") === "wechat") !== inWeChat;
+          });
+          openBtn.addEventListener("click", function () {
+            dlg.showModal();
+          });
+          document
+            .getElementById("wechat-close")
+            .addEventListener("click", function () {
+              dlg.close();
+            });
+          // Tap outside the sheet closes it.
+          dlg.addEventListener("click", function (e) {
+            if (e.target === dlg) dlg.close();
+          });
+        } else if (openBtn) {
+          // Very old browsers without <dialog>: just open the image.
+          openBtn.addEventListener("click", function () {
+            location.href = dlg ? dlg.querySelector("img").src : "#";
+          });
         }
 
         var btn = document.getElementById("share");
@@ -221,15 +357,24 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         box-sizing: border-box;
       }
 
+      /* Phones and tablets (default): the page canvas is XCMG blue. iOS 26
+         Safari tints its top bar from the body/html background colour (it
+         ignores theme-color for normal tabs), so a light canvas showed up as
+         a white band above the header. The card itself is full-bleed and at
+         least one full screen tall, so the blue never shows anywhere else;
+         rubber-band overscroll is off so it can't peek out at the bottom. */
       html {
         -webkit-text-size-adjust: 100%;
         text-size-adjust: 100%;
+        background-color: var(--primary);
+        overscroll-behavior-y: none;
       }
 
       body {
         margin: 0;
         min-height: 100dvh;
-        background: var(--bg);
+        background-color: var(--primary);
+        overscroll-behavior-y: none;
         color: var(--ink);
         font-family:
           system-ui,
@@ -248,28 +393,46 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
       .layout {
         min-height: 100dvh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
       }
 
-      /* ---------- Card (mobile-first: fills the screen) ---------- */
+      /* ---------- Card (mobile-first: edge to edge, fills the screen) ---------- */
       .card {
         width: 100%;
-        max-width: 440px;
-        min-height: 100dvh;
+        /* lvh = screen height with browser bars hidden, so the card also
+           covers the area behind iOS Safari's floating bottom toolbar. */
+        min-height: 100vh;
+        min-height: 100lvh;
         background: var(--card);
         padding-bottom: calc(24px + env(safe-area-inset-bottom));
       }
 
+      /* Centred content column: full width on phones, a readable column on
+         landscape phones and tablets. Side padding respects the notch. */
+      .wrap {
+        width: 100%;
+        max-width: 560px;
+        margin-inline: auto;
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+
       .hero {
         position: relative;
-        height: 132px;
+        /* Header grows with the status-bar inset so the logo always sits
+           the same distance below the clock (Home Screen app mode). */
+        height: calc(132px + env(safe-area-inset-top));
         background: linear-gradient(135deg, var(--primary), var(--primaryDeep));
-        padding: calc(18px + env(safe-area-inset-top))
-          max(20px, env(safe-area-inset-right)) 0
-          max(20px, env(safe-area-inset-left));
+        padding: calc(18px + env(safe-area-inset-top)) 20px 0;
         overflow: hidden;
+      }
+
+      .hero .wrap {
+        position: relative;
+      }
+
+      .content {
+        position: relative;
+        margin-top: -44px;
       }
 
       /* Subtle diagonal line texture, fading in from the right. */
@@ -297,8 +460,6 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
       .identity {
         padding: 0 24px;
-        margin-top: -44px;
-        position: relative;
       }
 
       .avatar {
@@ -337,6 +498,26 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         color: var(--muted);
         font-weight: 600;
         letter-spacing: 0.04em;
+      }
+
+      .location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 10px 0 0;
+        font-size: 15px;
+        color: var(--muted);
+      }
+
+      .location svg {
+        flex: none;
+        width: 17px;
+        height: 17px;
+        fill: none;
+        stroke: var(--icon-ink);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
       }
 
       /* ---------- Buttons ---------- */
@@ -409,7 +590,9 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
       }
 
       .btn:focus-visible,
-      .rows a:focus-visible {
+      .rows a:focus-visible,
+      .rows button:focus-visible,
+      .close:focus-visible {
         outline: 3px solid var(--ring);
         outline-offset: 2px;
       }
@@ -443,18 +626,27 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         border-top: 1px solid var(--line);
       }
 
-      .rows a {
+      .rows a,
+      .rows button {
         display: flex;
         align-items: center;
         gap: 14px;
+        width: 100%;
         min-height: 68px;
         padding: 10px 4px;
         color: inherit;
         text-decoration: none;
+        text-align: left;
         border-radius: 10px;
+        /* button reset */
+        font: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
       }
 
-      .rows a:hover {
+      .rows a:hover,
+      .rows button:hover {
         background: var(--row);
       }
 
@@ -512,14 +704,108 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         stroke-linejoin: round;
       }
 
-      /* ---------- Desktop / tablet: floating card ---------- */
-      @media (min-width: 720px) {
+      /* ---------- WeChat QR sheet ---------- */
+      dialog#wechat {
+        width: min(92vw, 400px);
+        max-width: none;
+        max-height: 92dvh;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        overflow: visible;
+      }
+
+      dialog#wechat::backdrop {
+        background: rgb(0 12 32 / 0.6);
+      }
+
+      .sheet {
+        background: var(--card);
+        border-radius: 22px;
+        padding: 10px 14px 16px;
+        box-shadow: 0 24px 64px rgb(0 0 0 / 0.35);
+      }
+
+      .sheet-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-left: 6px;
+      }
+
+      .sheet h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .close {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border: 0;
+        border-radius: 50%;
+        background: none;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .close svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+      }
+
+      .sheet img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 64dvh;
+        object-fit: contain;
+        background: #fff;
+        border-radius: 14px;
+        /* keep iOS long-press "Save to Photos" / WeChat "Scan QR Code" */
+        -webkit-touch-callout: default;
+      }
+
+      .how {
+        margin: 12px 4px 0;
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--muted);
+      }
+
+      .how strong {
+        color: var(--ink);
+      }
+
+      .how[hidden] {
+        display: none;
+      }
+
+      /* ---------- Desktop (mouse/trackpad, wide): floating card ----------
+         Touch devices of any width keep the edge-to-edge layout above. */
+      @media (min-width: 720px) and (hover: hover) and (pointer: fine) {
+        html,
+        body {
+          background-color: var(--bg);
+          overscroll-behavior-y: auto;
+        }
+
         .layout {
+          display: flex;
+          justify-content: center;
           align-items: center;
           padding: 48px 24px;
         }
 
         .card {
+          max-width: 440px;
           min-height: 0;
           border-radius: 24px;
           overflow: hidden;
@@ -528,6 +814,7 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
         }
 
         .hero {
+          height: 132px;
           padding-top: 20px;
         }
       }
