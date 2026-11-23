@@ -104,6 +104,21 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
                 </svg>
                 Save contact
               </a>
+              <details class="save-help" id="ios-contact-help" hidden>
+                <summary>iPhone: contact not saving?</summary>
+                <p>
+                  In the preview, choose <strong>Create New Contact</strong>
+                  (or Add to Existing Contact), then tap the checkmark in the
+                  contact editor. Closing the preview alone won't add a contact.
+                </p>
+                <p>
+                  Still not saved?
+                  <a href={card.vcfPath} download="Alan-Zheng-XCMG.vcf">
+                    Download the contact file
+                  </a>
+                  and open it from the iPhone Files app to import it.
+                </p>
+              </details>
               <p class="hint" id="wechat-hint" hidden>
                 WeChat can't save contacts. Tap <strong>···</strong> (top right)
                 →<strong>Open in Browser</strong>.<br />
@@ -275,6 +290,13 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
     <script is:inline>
       (function () {
+        // Safari's vCard preview does not automatically create a contact.
+        // Provide a file-download fallback for iPhone users who can't import
+        // from the preview. The alternate download opens via the Files app.
+        if (/iPhone|iPod|iPad/i.test(navigator.userAgent)) {
+          document.getElementById("ios-contact-help").hidden = false;
+        }
+
         // WeChat's in-app browser blocks .vcf downloads — tell the visitor
         // how to escape to the system browser. Common for China contacts.
         var inWeChat = /MicroMessenger/i.test(navigator.userAgent);
@@ -681,6 +703,33 @@ const linkedinHandle = card.linkedin.replace(/^https?:\/\/(www\.)?/, "");
 
       .hint[hidden] {
         display: none;
+      }
+
+      .save-help {
+        margin: 8px 4px 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .save-help[hidden] {
+        display: none;
+      }
+
+      .save-help summary {
+        cursor: pointer;
+        text-align: center;
+        padding: 5px;
+        color: var(--primary);
+      }
+
+      .save-help p {
+        margin: 8px 0;
+      }
+
+      .save-help a {
+        color: var(--primary);
+        text-decoration: underline;
       }
 
       /* ---------- Contact rows ---------- */
