@@ -6,7 +6,7 @@
 export const card = {
   givenName: "Alan",
   familyName: "Zheng",
-  title: "International Project Coordinator",
+  title: "International Project Manager",
   org: "XCMG",
   // Where the logo on the card links to. xcmgglobal.com is XCMG's English
   // international site (the one its overseas material points to).
