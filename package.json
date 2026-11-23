@@ -28,12 +28,12 @@
     "@emnapi/runtime": "^1.11.3",
     "@types/qrcode": "^1.5.6",
     "husky": "^9.1.7",
-    "lint-staged": "^17.6.0",
+    "lint-staged": "^17.6.1",
     "prettier": "^3.10.1",
     "prettier-plugin-astro": "^1.1.2",
     "qrcode": "^1.5.4",
     "typescript": "^6.0.3",
-    "wrangler": "^4.161.0"
+    "wrangler": "^4.165.0"
   },
   "engines": {
     "node": ">=18.17.1"
